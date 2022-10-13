@@ -10,6 +10,24 @@
     \section{Explainability Methods for Neural Networks}
     \subsection{Types}
     \subsection{Choice of Methods for Further Evaluation}
+    \subsubsection{Occlusion Sensitivity Maps}
+    Occlusion sensitivity Mapping is a model-agnostic perturbation based method, which generates explanations by manipulating parts of the input image. The approach is computationally expensive, O(#simultaneous occlusions * #features * #ablations\_per\_eval * 1/#strides), and is included in this work to verify if Gestalt Matcher model is focusing on key facial features, or simply using the surrounding context to produce predictions. This is achieved by systematically occluding different portions of the input image with a black square or rectangular mask, and computing the difference in outputs (logit scores of the target class). In this work, we use a  black square mask of dimensions 10x10. Important portions of the input when occluded, result in relatively larger logit score differences, than the trivial ones. The differences are plotted on the image, yielding the occlusion sensitivity maps.
+    
+    \subsubsection{Deconvolution}
+    Zeiler and Fergus proposed the \enquote{Deconvolution} approach to visualize and provide insights into the functions learned by intermediate layers of a CNN. It is one of the earliest attribution techniques, which produces visualizations based on computing gradient of loss function with respect to a given input. The work acts a baseline till date for development and evaluation of new pixel attribution techniques.\\
+    The method uses a deconvolution counterpart for every building block of a CNN, to obtain reverse mapping from features to input pixels. The idea of deconvolution was first introduced by Zeiler et al. \cite{zeiler2011adaptive}, as a way to perform unsupervised learning. In order to obtain attribution maps using the Deconvolution approach, the first step is to attach each block of convnet with its deconvolution counterpart as shown in the figure 1. Every activation except the ones belonging to the class of interest is set to zero. The activation value is then backpropagated through the deconvolution blocks such as unpooling, rectification and transposed convolution, all the way to the input layer. Deconvolution blocks act according to a pre-defined set of rules. The transposed convolution block performs the inverse of convolution operation by using transposed versions of the same filters. This is equivalent to flipping a given filter both in vertical and horizontal directions. In order to backtrack activations through max-pooling layer (.i.e. using the unpooling layer), indices corresponding to maximum activations in every layer, are first stored during the forward pass and later retrieved during the back propagation phase. However, the use of indices or switches from the forward pass, constrains the visualization on the input image \cite {guided_backprop}.\\ 
+    Authors test their method on an AlexNet \cite{} trained on the ImageNet \cite{krizhevsky2012imagenet}, Caltech-101 \cite{} and Caltech-256 \cite{} and PASCAL2012 \cite{} datasets. As a first step, they visualize the top 9 feature maps of the each of the first five layers, to show the proportional increase of complexity in features with respect to their receptive fields. The visualizations are obtained by backtracking the strongest activation of a feature map for most of the data samples, all the way until a given input, using the deconvolution rules.The paper also discusses about the proportionality between the time taken for a given layer to learn features and its corresponding depth. Further, it shows that features learned by top layers are more invariant to transformations like translations, rotations and scale changes.\\
+    The work evaluates itself by qualitatively comparing its resulting attribution maps with occlusion sensitivity maps. Occlusion sensitivity maps (\ref perturbation method) are obtained by systematically occluding portion of an image and analyzing the given classifier’s output, to determine the most discriminative regions as shown in the first image of Figure \ref{osm}.
+    \begin{figure}[ht!]
+    \includegraphics[width=\textwidth]{images/occlusion_sensitivity_map}
+    \caption{An illustration of occlusion sensitivity mapping}
+    \label{osm}
+\end{figure}
+    
+    
+    
+    
+    
     \subsection{Downsides}
     
 \end{document}
