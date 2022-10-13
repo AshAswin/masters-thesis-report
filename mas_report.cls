@@ -149,11 +149,18 @@ not set. Please fix this.}
     \ifx\@thirdpartylogo\@empty
     \relax
     \else
-    \begin{minipage}{0.4\textwidth}
-        \centering
-	   \includegraphics[height=1.3cm]{\@thirdpartylogo}
+    \begin{minipage}{0.25\textwidth}
+	\centering
+	\includegraphics[height=1.3cm]{images/uni-bonn-logo.png}
     \end{minipage}
-
+    \begin{minipage}{0.4\textwidth}
+	\centering
+	\includegraphics[height=1.3cm]{images/ukb_logo.pdf}
+    \end{minipage}
+    \begin{minipage}{0.25\textwidth}
+	\centering
+	\includegraphics[height=1.3cm]{images/logo-IGSB-mittel-mit-Schrift-engl.pdf}
+    \end{minipage}
     \fi%
 
 \vfill
