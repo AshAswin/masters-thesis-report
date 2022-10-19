@@ -2,33 +2,45 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
     \chapter{Introduction}
-    \lipsum[1-5]
+	 \enquote {Artificial Neural Networks (ANNs) are increasingly applied for medical image diagnostics} \cite{anwar2018medical}. Medical image data such as scans produced from imaging devices like x-rays \cite{ozturk2020automated}, Magnetic Resonance Imaging (MRI) \cite{xue2012window}, Computed Tomography (CT) \cite{lee2019explainable}, and ultra sound \cite{qian2021prospective}, waveforms produced from procedures like ElectroCardioGraphy (ECG) \cite{hicks2021explaining} and ElectroEncephaloGraphy (EEG), histological images \cite{binder2021morphological}, images of body parts, and admission notes \cite{li2017convolutional} are fed into ANNs to perform tasks such as segmentation \cite{Schwendicke2019}, classification \cite{Gurovich2019} and abnormality detection \cite{binder2021morphological}.
+	
+	Predictions made by neural network models are typically intended to be used in a clinical setting, to aid medical practitioners in diagnosing their patients. As a result, it can help in an overall reduction of \enquote{misdiagnosis}, which is one of the most severe problems in health care \cite{li2017convolutional}. Besides, the adoption of ANN based Artificial Intelligence (AI) systems facilitates early screening and identification of life-threatening conditions such as cancer in population with limited or no access to sub-specialty trained clinicians.
+	
+	ANN models such as the ones used in AI systems for intracranial haemorrhage classification \cite{lee2019explainable} and breast cancer prediction  \cite{mckinney2020international} are claimed to outperform clinicians in their respective tasks. In spite of their success in terms of predictive performance, the black box nature of ANNs restrains them from getting deployed in a clinical setting. Inherently, ANNs lack transparency and therefore are considered to be less dependable for high stake applications like medical diagnosis and autonomous driving. Besides, regulatory bodies such as \enquote{US FDA (United States Food and Drug Administration) require any clinical decision support software to explain the rationale or support for its decisions to enable the users to independently review the basis of their recommendations} \cite{lee2019explainable}. Such contradictions further restrict the deployment of ANN based AI systems for performing medical diagnoses in a clinical setting.
+	
+	\enquote{Explainable Artificial Intelligence (XAI) is a set of processes and methods that allows human users to comprehend and trust the results and output created by machine learning algorithms} \cite{BibEntry2021Mar}. Application of XAI techniques to Machine Learning (ML) models enables its human users to better understand their behavior and rationale behind their predictions. As a result, they improve transparency of models like ANNs, in turn making them more trustworthy for applications like medical diagnosis.
+	
+	In the recent times, there has been a steep rise in the adoption of XAI methods to explain ANN models for medical diagnoses. A considerable number existing works focus on explaining neural network models that use radiological image data to perform tasks such as COVID classification \cite{ghoshal2020estimating}, breast cancer risk assessment \cite{qian2021prospective} and haemorrhage detection \cite{lee2019explainable} respectively. A few other leverage XAI techniques to explain neural network models used for detecting cancer from histopathological \cite{binder2021morphological} and skin images \cite{nunnari2021overlap}. However, there does not exist a work that uses XAI techniques to look into neural network models that recognize rare genetic syndromes from frontal facial images of patients.
+	
+	The objective of this thesis is to apply suitable XAI techniques to one such state-of-the-art (SOTA) genetic syndrome recognition model called GestaltMatcher \cite{hsieh2022gestaltmatcher}, whose performance surpasses that of clinicians. with intents to make the models explainable and to determine their attention regions in a given facial image. The following subsections describe the motivation behind pursuing this work and lists the relevant research questions that are addressed by this thesis. 
+	
+
     \section{Motivation}
-    \subsection{...}
-
-    \lipsum[6-10]
-
-    \subsection{...}
-
-
+    \enquote{Rare genetic disorders affect more than 6.2\% of global population} \cite{hsieh2022gestaltmatcher}. A significant fraction of the population with certain such disorders are characterized by facial abnormalities, which make up their respective facial phenotypes. The facial phenotypic information is used by clinical geneticists along with results from other laboratory tests such as molecular, to reach a diagnosis. However, the rarity in occurrence of such disorders combined with the lack of distinctive traits for a subset of them, makes their diagnosis a challenging task even for experienced medical practitioners.  
+    
+    ANN models such as the ones presented in DeepGestalt \cite{Gurovich2019} and GestaltMatcher \cite{hsieh2022gestaltmatcher} comprise a promising step forward in using AI for the task of recognizing rare genetic disorders from facial phenotypes. Such works rely on databases like Face2Gene \cite{face2gene} and GestaltMatcher database (GMDB) \cite{gmdb}  which offer a valuable collection of frontal facial images and other medical data of the patients with such rare disorders. The DeepGestalt \cite{Gurovich2019} model claims to surpass human expert's performance in the task of recognizing certain syndromes and their sub types. Therefore, deployment of such models in a clinical setting has the potential to significantly improve the speed and accuracy of diagnoses.
+    
+    The constraints on deploying ANN models in a clinical setting as discussed in the previous section, apply to the genetic disorder classifiers as well. Therefore, there is an obligation for such models to provide bases for their predictions in order to make them dependable. However, none of the existing works on genetic disorder classification from frontal facial images focus on the explainability of their models.
+    
+    In general, ANN models are capable of learning novel discriminative features or regions from the training data, that are relevant to the task at hand. Associating such learned features or regions with the real world knowledge (with respect to the dataset) can provide new insights about the data and task at hand. In the case of genetic disorder classification, associating attention regions of SOTA models like DeepGestalt \cite{Gurovich2019} and GestaltMatcher \cite{hsieh2022gestaltmatcher} in their frontal facial input images can enhance human kind's understanding about facial phenotypes of genetic disorders. Such a study to associate the attention regions of genetic disorder classifiers with the facial phenotypic information known to the medical community, is yet to be conducted.
+    
+    \subsection{Importance} \label{sec_importance}
+    Making a genetic disorder classifier explainable by determining its attention regions, offers a means for its users to check whether the model focuses on features relevant to a given disorder, or something irrelevant like background, for example. In the former case, a clinician could use the model's prediction to reinforce their diagnoses. In the latter, they could simply ignore its decisions. Thus an explainable genetic disorder classifier provides a verifiable second opinion to a clinical geneticist.
+    
+    The knowledge about facial phenotypes of rare genetic disorders are contained in resources like Human Phenotype Ontology (HPO) \cite{hpo} and relevant medical literature. However, due to rare occurrences of such disorders, not all variations in their phenotypes are known to the medical community. Analyzing the attention regions of genetic disorder classifier models offers a way to discover facial regions that contain novel phenotypic traits, there by enhancing human kind's understanding of such rare medical conditions.
+    
+    Datasets like GMDB \cite{gmdb} only contain a fractional number of instances per class, when compared with sizes of general purpose image classification datasets like ImageNet \cite{deng2009imagenet}. Most of the disorder classes contains samples in the order of tens and a few in the order of hundreds. This in turn demands use of highly effective data pre-processing and model training techniques to learn the most from a dataset. Analyzing attention regions of a classifier model trained on such datasets, enables an ML practitioner to identify any possible biases that the model could have learned, and consecutively enables him to adopt suitable techniques to remove them. This eventually makes the model more generalized and possibly increases its predictive performance. 
+    
     \section{Challenges and Difficulties}
     \subsection{...}
 
     \lipsum[11-15]
 
-    \subsection{...}
-
-    \subsection{...}
-
-
-
     \section{Problem Statement}
-    \subsection{...}
-
-    \lipsum[21-30]
-
-    \subsection{...}
-
-
-    \subsection{...}
+ 	The proposed work aims to systematically approach the problem in hand. Firstly, a literature review will be conducted to identify suitable XAI methods, which when integrated to a convolutional neural network (CNN) based classifier model, yields its attention regions. A selected set of XAI methods will be then integrated to a multi-class genetic disorder classifier, to determine the regions in an input facial image that form the bases for its predictions. Finally, thus obtained facial regions will be compared with the areas of respective input's disorder's facial phenotypic traits. Concisely put, this thesis intends to address the following research questions: 
+ 	\begin{enumerate}
+ 		\item [] \textbf{RQ1.} What are the XAI methods to determine important regions in an input image for a CNN based classifier model to make its predictions?  
+ 		\item [] \textbf{RQ2.} What are the key regions in frontal facial images fed to CNN models trained for the task of classifying rare genetic disorders?
+ 		\item [] \textbf{RQ3.} How do the regions obtained from findings for RQ2 compare with the knowledge known to the medical community on facial phenotypes of the corresponding rare genetic disorders? 
+ 	\end{enumerate}
 \end{document}
