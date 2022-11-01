@@ -29,7 +29,7 @@
  \subsubsection{Saliency Maps}
  Simonyan et al. propose two visualization techniques with intents to generate an image which maximizes the class score, and to compute a class-specific saliency map for a given input. The first technique numerically optimizes the input image while the other computes the spatial support of a given class in an input. This work is one of the earliest to leverage saliency maps for the task of weakly-supervised object segmentation. Authors demonstrate the proposed techniques by applying to a deep convnet trained on the ILSVRC-2013 dataset. \cite{ILSVRC15}
  
- \subsubsection*{Class Model Visualization}
+ \subsubsection{Class Model Visualization}
  The intention of this technique is to numerically generate an image which is representative of the target category with respect to the convolutional net’s class scoring model. This is achieved by finding a L2-regularised image such that the logit $S_{c}$  of a given class c is maximized:
  
  %\begin{equation*}
@@ -38,7 +38,7 @@
  
  where  $\lambda$ refers to the regularization parameter and I is a local optimum, which can be found with help of back propagation. The optimization process uses the mean image of the data set as the initial value. The work also mentions about the prominence of visualizations produced by using logit scores over soft-max/unnormalized class scores.   
     
- \subsubsection*{Image-Specific Class Saliency}
+ \subsubsection{Image-Specific Class Saliency}
   The objective of this technique is to rank pixels of an input image, based on their impact on class scores ($S_c$). Authors provide a couple of interpretations for the class score values/ logits with respect to which saliency maps are created:
   \begin{enumerate}
   	\item A linear approximation of the function learned by  neural network in a local neighbourhood of the input image.
@@ -57,7 +57,7 @@
  
  \subsubsection{Guided Backpropagation}
  Springenberg et al. proposed a new variant of the deconvolution approach in their work, as a means to analyze their \enquote{All Convolutional Net} architecture, which replaces max-pooling layers by convolutional layers with increased stride. The first objective of this work was to empirically prove the equivalence (in terms of predictive performance) between a max-pooling layer and a convolutional layer with an increased stride. This was achieved by evaluating a custom cnn model with max-pooling layers against its convolutional counterpart on three datasets: CIFAR-10, CIFAR-100 and ILSVRC 2012. In all cases, performances of the all convolutional models were on par with their max pooling counterparts. The second objective was to determine the quality of representations learned by the intermediate layers of the all convolutional neural network models. In order to achieve this, authors proposed a visualization  approach, which can be considered as a slight modification of the Deconvnet \cite{} technique.
- \subsubsection*{Back propagation through ReLU}
+ \subsubsection`{Back propagation through ReLU}
  One of the most significant difference between Saliency Maps \cite{}, Deconvnet \cite{} and Guided backprop \cite{} approaches is the strategy used by these methods to backpropagate gradients through the ReLU layer. 
  
  \begin{itemize}
@@ -79,7 +79,7 @@ The term \enquote{guided backpropagation} comes from the use of the additional n
 \subsubsection{Deep LIFT}
  Shrikumar et al. propose an attribution technique, which assigns scores to input pixels based on their contribution to change in activation of each neuronal unit with respect to a reference value, which is chosen based on the problem in hand. Authors claim the technique to be computationally inexpensive, and yield meaningful representations in comparison with other methods. Besides, the technique is devised in a way that it is suitable for neural net variants apart from CNN like Recurrent Neural Networks (RNN).\\
  Intuitively, Deep LIFT seeks to explain the deviation in output from some reference output in terms of deviation in input from its respective reference. The motivation to use a reference value, arises from the need to handle the \enquote{saturation problem}.
- \subsubsection*{Saturation problem}
+ \subsubsection{Saturation problem}\label{sec_saturation}
  The saturation problem can be explained intuitively with an example. The figure illustrates a simple neural network whose outputs saturates, when the sum of its inputs ($i_1$ and $i_2$) exceeds 1. Application of any perturbation or gradient based attribution method, to this scenario would lead to creation of undesirable artifacts. For the methods of earlier type, perturbing inputs will not cause any changes in the output. On the other hand, gradient based methods will suffer from lack of gradients in the region where $i_1+i_2 > 1$.\\
  \subsubsection*{Working}
  Deep LIFT handles this problem by using a reference value, enabling it to backpropagate the importance signal even in zero and discontinuous gradient situations.\\
