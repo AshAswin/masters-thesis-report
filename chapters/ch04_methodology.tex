@@ -25,14 +25,17 @@
     In addition to the above discussed reasons, it is also observed that layer attribution approaches like GradCAM are widely used to explain neural network models for medical diagnosis \cite{} \cite{} \cite{}. However, the downside of GradCAM is it approaches
     attribution as weakly supervised segmenation problem and \enquote{sometimes higlight locations the model didnot actually use}\cite{draelos2020hirescam}. HiResCAM \cite{draelos2020hirescam}, a recent successor of GradCAM overcomes this issue and produces more faithfulness explanations. Therefore, the method is included in the scope of this work.\\
     GradCAM and HiResCAM are layer-specific and therefore their explanations are limited by the choice of the convolutional layers made. FullGrad \cite{srinivas2019full} overcomes this deficit by considering attributions across all neuronal units of a model and thus becomes a candidate for experimentation. Along with these CAM techniques, occlusion sensitivity mapping is included as a reference explanation method, to better understand the classifier model's regions of attention.
-    \begin{figure}[h]  
-    	\includegraphics[width=1.02\textwidth, trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/1_2020.pdf}
+    \begin{figure}[h]
+		\hspace*{-2cm}    
+    	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/1_2020.pdf}
     \end{figure}
     \section{Design of Experiments}
     \subsection{Overview}
     \subsection{Objectives}
     
     \section{Evaluation}
-    \subsection{XAI Metrics}
+    Evaluating XAI methods based on their explanation correctness remains a challenge till date. Yeh \etal \cite{yeh2019fidelity} classifies explanation evaluation measures into two categories: objective measures and subjective measures. Objective measures evaluate explanations based on whether a given XAI method satisfies certain properties or axioms, like sensitivity and implementation invariance \cite{sundararajan2017axiomatic}. On the other hand, subjective measures focus on aspects such as explanation usefulness, and the evaluation procedure involves humans. This research work uses subjective measures to evaluate the explanation artifacts produced by the chosen set of XAI methods, when applied to the GestaltMatcher model. This section gives the rationale behind opting for a subjective evaluation procedure and also describes the process in detail.
+    \subsection{The Need for Subjective Evaluation}
+    
     \subsection{Proposed Evaluation Strategy}
 \end{document}
