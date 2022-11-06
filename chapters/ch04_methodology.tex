@@ -17,7 +17,7 @@
     	\item \textbf{Saturation problem:} As briefly described in \ref{sec_saturation}, saturation problem occurs when the output of a neural network model gets saturated and its gradients with respect to inputs become insensitive, thereby affecting the quality of generated attribution maps. Shrikumar et al. \cite{shrikumar2017learning} reported that occlusion sensitivity maps, layer-wise relevance propagation, saliency maps, guided-backpropation and guided-GradCAM methods suffer from this problem. Besides, they also report the failure of deconvolution approach in the presence of discontinuos input gradients.   
     	\item \textbf{Sensitivity to changes in model and data:} Adebayo et al. \cite{adebayo2018sanity} investigated the faithfulness of explanations produced by popular attribution methods. The chosen methods were evaluated based on their sensitivity to randomization induced in the considered neural network model's weights and labels of the training instances. Authors report that guided-backpropagation and guided-GradCAM remained insensitive to the changes in model and data, having functioned merely as edge detectors. GradCAM passed this sanity check.
     	\item \textbf{Robustness of explanations:} An interpretability method is robust when it generate similar explanations for similar inputs. David Alvarez et al. \cite{alvarez2018robustness} and Yi-han Sheu \cite{sheu2020illuminating} reported that DeepLIFT experiences robustness issues and produces inaccurate results in the presence of multiplicative interactions between features. Besides the lack of robustness, the success of DeepLIFT depends on factors such the choice of reference/baseline image, which is difficult to determine. 
-    	\item \textbf{Relevance to the problem at hand:} Along with the above list dimensions, this work shortlists the methods based on their ability to produce meaningful explanations in the context of genetic syndrome recognition. Figure \ref{}  shows few sample attribution maps generated from applying both the considered sets of input and layer attribution maps to the GestaltMatcher model. It can be observed that contours of regions in attribution maps produced by layer attribution methods closely match the scales of phenotypic features of genetic syndromes and parts of human face, in general. This effect is possibly due to the inherent working principles of the two classes of attribution methods.\\
+    	\item \textbf{Relevance to the problem at hand:} Along with the above list dimensions, this work shortlists the methods based on their ability to produce meaningful explanations in the context of genetic syndrome recognition. Figures \ref{example_ipa} and \ref{example_la}  shows few sample attribution maps generated from applying both the considered sets of input and layer attribution maps to the GestaltMatcher model. It can be observed that contours of regions in attribution maps produced by layer attribution methods closely match the scales of phenotypic features of genetic syndromes and parts of human face, in general. This effect is possibly due to the inherent working principles of the two classes of attribution methods.\\
     	Layer attribution maps are obtained by scaling and superimposing feature map activations of the last convolutional layers of a CNN, which are responsible for extracting high-level features from a given input image. This nature makes them more suitable for the problem at hand than input attribution methods, which represent pixel-wise attribution methods.
     \end{itemize}
 	
@@ -25,17 +25,56 @@
     In addition to the above discussed reasons, it is also observed that layer attribution approaches like GradCAM are widely used to explain neural network models for medical diagnosis \cite{} \cite{} \cite{}. However, the downside of GradCAM is it approaches
     attribution as weakly supervised segmenation problem and \enquote{sometimes higlight locations the model didnot actually use}\cite{draelos2020hirescam}. HiResCAM \cite{draelos2020hirescam}, a recent successor of GradCAM overcomes this issue and produces more faithfulness explanations. Therefore, the method is included in the scope of this work.\\
     GradCAM and HiResCAM are layer-specific and therefore their explanations are limited by the choice of the convolutional layers made. FullGrad \cite{srinivas2019full} overcomes this deficit by considering attributions across all neuronal units of a model and thus becomes a candidate for experimentation. Along with these CAM techniques, occlusion sensitivity mapping is included as a reference explanation method, to better understand the classifier model's regions of attention.
-    \begin{figure}[h]
+    \begin{figure}[H]
 		\hspace*{-2cm}    
-    	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/1_2020.pdf}
+    	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/input_example.pdf}
+    	\caption{An example showing input attribution maps of discussed methods, generated for a patient image}
+    	\label{example_ipa}
+    	 \vspace{1cm}
+    	\hspace*{-1.0cm}    
+    	\includegraphics[scale=0.58,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/layer_example.pdf}
+    	\caption{An example for layer attribution maps of discussed methods, generated for a patient image}
+    	\label{example_la}
     \end{figure}
+	\section{Evaluation}
+	Evaluating XAI methods based on their explanation correctness remains a challenge till date. Yeh \etal \cite{yeh2019fidelity} classifies explanation evaluation measures into two categories: objective or computational measures and subjective measures. Objective measures evaluate explanations based on whether a given XAI method satisfies certain properties or axioms, such as completeness\cite{sundararajan2017axiomatic}. On the other hand, subjective measures focus on aspects such as explanation usefulness, and the evaluation procedure involves humans. This research work uses subjective measures to evaluate the explanation artifacts produced by the chosen set of XAI methods.\\ 
+	In the beginning, this section briefly explains the two predominantly used objective measures to evaluate saliency mapping methods: \enquote{infidelity and sensitivity}\cite{yeh2019fidelity}, to give the reader an idea about what computational metrics typically look for. Subsequently, the rationale behind using subjective measures over objective ones for this work is provided. Finally, the evaluation procedure is described in detail.
+	\subsection{Objective Measures}
+	Yeh \etal \cite{yeh2019fidelity} proposed infidelity and sensitivity metrics in their work, to benchmark various saliency mapping methods. These measures are computed based on the changes observed in model explanations, when its inputs are subject to perturbations. 
+	\subsubsection{Infidelity}
+	\begin{equation}
+		content...
+	\end{equation}
+	Infidelity computes the expected mean squared difference between an explanation scaled by the magnitude of an input perturbation, and differences between the predictor function of the given model at its input and perturbed input. Intuitively, this refers to the correctness of an XAI method in generating true explanations for model predictions.
+	\subsubsection{Sensitivity}
+	\begin{equation}
+		content...
+	\end{equation}
+	Sensitivity can explained as the change in model explanation resulting from a small perturbation in the input.
+	
+	\subsection{Rationale to Adopt Subjective Evaluation}
+	Although, computational measures such as the ones presented offer a quantitative means to benchmark XAI methods, they cannot be used for evaluating them on abstract objectives such as meaningfulness of explanations. Such an evaluation can only be performed in subjective manner, by end users of the AI system.\\
+	Mohseni \etal \cite{mohseni2021multidisciplinary} list various possible goals with which XAI methods can be used, and also recommend measures to evaluate them, based on the context of their application. The goals listed in their work are as follows: algorithmic transparency, user trust and reliance, bias mitigation, privacy awareness, model visualization and inspection, model tuning and selection, model interpretability and debugging.\\ 
+	The primary goals of this research work can be related to three of the above mentioned: \enquote{algorithmic transparency}, \enquote{user-trust and reliance} and \enquote{model interpretability}. For such cases, authors recommend to evaluate XAI methods by conduct human-subject studies using tools such as Likert-scale questionnaires \cite{likert_scale}. This research work follows the recommendation, and formulates a questionnaire for clinicians (end-users) to evaluate the generated explanations.
+	\pagebreak
     \section{Design of Experiments}
-    \subsection{Overview}
-    \subsection{Objectives}
-    
-    \section{Evaluation}
-    Evaluating XAI methods based on their explanation correctness remains a challenge till date. Yeh \etal \cite{yeh2019fidelity} classifies explanation evaluation measures into two categories: objective measures and subjective measures. Objective measures evaluate explanations based on whether a given XAI method satisfies certain properties or axioms, like sensitivity and implementation invariance \cite{sundararajan2017axiomatic}. On the other hand, subjective measures focus on aspects such as explanation usefulness, and the evaluation procedure involves humans. This research work uses subjective measures to evaluate the explanation artifacts produced by the chosen set of XAI methods, when applied to the GestaltMatcher model. This section gives the rationale behind opting for a subjective evaluation procedure and also describes the process in detail.
-    \subsection{The Need for Subjective Evaluation}
-    
-    \subsection{Proposed Evaluation Strategy}
+    Although, computational measures such as the ones presented offer a quantitative means to benchmark XAI methods, they cannot be used for evaluating them on abstract objectives such as meaningfulness of explanations. Such an evaluation can
+    \begin{figure}[ht]
+    	\hspace*{-0.5cm}      
+    	\includegraphics[scale=0.62]{chapter4/experiment_design.pdf}
+    	\caption{Design of experiments}
+    \end{figure}
+    \subsubsection{Overview}
+    \subsubsection{A. Patient-wise Attribution Maps Generation}
+    \subsubsection{B. Composite Face Generation}
+    \subsubsection{C. Generic Attribution Maps Generation}
+    \subsubsection{D. Evaluation Procedure}
+     \begin{figure}[ht]    
+    	\includegraphics[scale=0.7,trim = 0cm 0cm 0cm 0cm]{chapter4/patient_wise_tree.pdf}
+    	\caption{Proposed procedure to evaluate patient-wise attribution maps}
+    \end{figure}
+	\begin{figure}[ht]    
+		\includegraphics[scale=0.6,trim = 0cm 0cm 0cm 0cm]{chapter4/composite_face_tree.pdf}
+		\caption{Proposed procedure to evaluate composite faces}
+	\end{figure}
 \end{document}
