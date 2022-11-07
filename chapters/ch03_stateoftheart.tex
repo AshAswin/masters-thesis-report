@@ -99,6 +99,13 @@ The term \enquote{guided backpropagation} comes from the use of the additional n
 The technique also takes in to account that a zero contribution could be due to cancellation of positive and negative contributions from a pair of entities. The application of DeepLIFT also depends on the choice of target neuron’s layer, logit or softmax layer in a classifier network, for example. Authors demonstrate the approach by applying it to a CNN trained on MNIST dataset \cite{lecun1998gradient} and an RNN trained on simulated genomic data.\\
 The benchmarking on MNIST classifier for various methods was performed on basis of the change in log-odds score, when a selected pixels of a given image belonging to class c0 were erased to convert it to an image of some target class ct. The upper section of figure illustrates the result of masking pixels ordered as the most significant for converting to target classes 3 and 6. As graphically represented in bottom part of figure, DeepLIFT outperformed other backpropagation based methods.
 
+\section{Layer-wise Relevance Propagation}
+
+
+
+
+
+
 
 \section{Layer Attribution Methods}
 Layer attribution methods evaluate contribution of each neuronal unit in a given convolutional layer to a model's output. This section discusses three SOTA methods of the category, considered for our work.
