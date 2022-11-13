@@ -21,17 +21,17 @@
     In addition to the above discussed reasons, it is also observed that layer attribution approaches like GradCAM are widely used to explain neural network models for medical diagnosis \cite{} \cite{} \cite{}. However, the downside of GradCAM is it approaches
     attribution as weakly supervised segmenation problem and \enquote{sometimes higlight locations the model didnot actually use}\cite{draelos2020hirescam}. HiResCAM \cite{draelos2020hirescam}, a recent successor of GradCAM overcomes this issue and produces more faithfulness explanations. Therefore, the method is included in the scope of this work.\\
     GradCAM and HiResCAM are layer-specific and therefore their explanations are limited by the choice of the convolutional layers made. FullGrad \cite{srinivas2019full} overcomes this deficit by considering attributions across all neuronal units of a model and thus becomes a candidate for experimentation. Along with these CAM techniques, occlusion sensitivity mapping is included as a reference explanation method, to better understand the classifier model's regions of attention.
-%    \begin{figure}[H]
-%		\hspace*{-2cm}    
-%    	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/input_example.pdf}
-%    	\caption{An example showing input attribution maps of discussed methods, generated for a patient image}
-%    	\label{example_ipa}
-%    	 \vspace{1cm}
-%    	\hspace*{-1.0cm}    
-%    	\includegraphics[scale=0.58,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/layer_example.pdf}
-%    	\caption{An example for layer attribution maps of discussed methods, generated for a patient image}
-%    	\label{example_la}
-%    \end{figure}
+    \begin{figure}[H]
+		\hspace*{-2cm}    
+    	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/input_example.pdf}
+    	\caption{An example showing input attribution maps of discussed methods, generated for a patient image}
+    	\label{example_ipa}
+    	 \vspace{1cm}
+    	\hspace*{-1.0cm}    
+    	\includegraphics[scale=0.58,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter4/layer_example.pdf}
+    	\caption{An example for layer attribution maps of discussed methods, generated for a patient image}
+    	\label{example_la}
+    \end{figure}
     \section{Design of Experiments}\label{sec_exp_design}
     \begin{figure}[ht]
     	\hspace*{-0.5cm}      
