@@ -47,4 +47,22 @@
     \section{Introduction to XAI}
 	\enquote{XAI is artificial intelligence (AI) in which humans can understand the decisions or predictions made by the AI}\cite{vilone2021notions}. It also refers to a branch of study which deals with the development of processes and methods to explain decisions of AI systems. The \enquote{interpretability} is often used interchangeably with \enquote{explainability}. However, it is important to note that interpretability has to do with describing the internals of an AI system, in a way that is understandable to humans. In this section, we give an overview of different types of methods developed to visualize internals of neural network models, especially CNNs such as the one used in GestaltMatcher, and explain their predictions.
 	
+	\subsubsection{Methods for Neural Networks}
+	Figure \ref{} depicts the taxonomy of explanation methods for neural network methods as presented in \cite{molnar2019}. 
+	
+	\subsubsection{Feature Visualization}
+	This class of methods focus on visualizing features learned in hidden layers of a CNN. Entities like edges, textures, patterns, parts and objects can be visualized by maximizing activations of convolutional layers. Last layers of neural network model learn features of higher complexity than the earlier ones.  Feature visualization can be achieved through optimization, or by using approaches such as network dissection \cite{bau2017network}, in which highly activated channels of a given layer are associated with human concepts such as color. Although feature visualization seems to be a simple tool for understanding internals of a neural network, often its visualization artifacts are not interpretable. Besides, another challenge lies in choosing the right set of layers and channels for visualization, and summarizing information represented in them.
+
+	\subsubsection{Attribution Methods}
+	Attribution methods provide the rationale behind a CNN model's output by producing an attribution map representation in which every pixel 
+	
+	
+	\subsubsection{Concept Visualizations}
+	Concept based approaches are built with an intent to detect and visualize user-defined concepts such as a patterns or any abstraction in the latent space learned by a neural network model.  Testing with Concept Activation Vectors (TCAV) \cite{tcav} can be taken as an example for a concept visualization method. It quantifies any given concept's influence on a neural network model's prediction for a given class.
+	
+	\subsubsection{Influential Instances}
+	A training data sample is considered \enquote{influential} when its deletion from the train set considerably affects the predictions of a model. Identification of influential instances offers a way to debug machine learning models and explain their predictions.
+	
+	\subsubsection{Counterfactual Explanations}
+	A counterfactual explanation of a model prediction explains the least change to the input feature values which changes the prediction to a predefined output. Adversarial examples \cite{} make a great example for counterfactual explanations. However, they are synthesized with an intent to deceive a model rather than explaining its predictions.
 \end{document}
