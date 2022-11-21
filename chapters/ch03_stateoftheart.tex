@@ -2,12 +2,8 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
     \chapter{State of the Art}
-	The previous chapter gave necessary background knowledge, for the reader to understand this research work. This chapter emphasizes on Explainable Artificial Intelligence (XAI) methods developed for convolutional neural network (CNN) models such as GestaltMatcher. The set of methods considered for this research work are categorized and explained in a concise manner. 
-
-    \section{Explainability Methods for Neural Networks}
-    XAI methods for neural networks visualize concepts and features learned by a model, with an intent to explain its individual predictions. The knowledge contained in a CNN model and its predictions can be represented and explained, respectively, in different ways. The abstract features and concepts learned by it can be visualized using methods such as network dissection \cite{bau2017network}. Techniques such as Testing with Concept Activation Vectors (TCAV)\cite{tcav} explain a model based on user-defined concepts like a color or an object. Attribution methods provide the rationale behind a CNN model's output by producing an attribution map, a representation in which every pixel or feature of the input image is assigned a score, based on how much it impacts the prediction.\\
-    This work uses attribution methods to understand GestaltMatcher's regions of attention in syndromic faces, and to explain its predictions. Most of the attribution methods make use of gradient information obtained by computing the first derivative of output score with respect to value of a feature. Kokhlikyan \etal \cite{kokhlikyan2020captum} categorize attribution methods into three groups, based on the entity to which a model's predictions are attributed to: input/primary, layer attribution and neuron attribution. The same dimension is used to group the methods considered for this work.
-    
+	The previous chapter gave necessary background knowledge for the reader to understand this research work. This chapter contains a literature review of various state-of-the-art feature attribution methods considered for our project. Kokhlikyan \etal \cite{kokhlikyan2020captum} categorize attribution methods into three groups, based on the entity to which a model's predictions are attributed: input/primary, layer and neuron. The same dimension was used to group the set of methods considered for this work, and inturn organize this chapter.
+ 
     \section{Input Attribution Methods}
     Input or primary attribution methods evaluate contribution of each input pixel to the output of a neural network model. This section discusses six input attribution methods considered for this research work.
     \subsection{Occlusion Sensitivity Maps}
