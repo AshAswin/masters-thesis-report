@@ -10,9 +10,24 @@
 %		\caption{Illustration of the pipleline to process a patient photo using GestaltMatcher}
 %		\label{fig_cl_pipeline}
 %	\end{figure}
-	The architecture and working of GestaltMatcher was explained in Chapter \ref{chap_background}. This work uses the classifier variant of GestaltMatcher for its experiments (refer Figure \ref{fig_arch_gest_matcher} for architectural details). The neural network is first trained on facial images from the CASIA-WebFace \cite{yi2014learning} dataset. Subsequently, it is trained on 139 frequent-syndrome classes listed by the authors of GestaltMatcher. The training details are presented in \ref{}.
+	The architecture and working of GestaltMatcher was explained in Chapter \ref{chap_background}. This work uses the classifier variant of GestaltMatcher for its experiments (refer Figure \ref{fig_arch_gest_matcher} for architectural details). The neural network is first trained on facial images from the CASIA-WebFace \cite{yi2014learning} dataset. Subsequently, it is trained on 139 frequent-syndrome classes listed by the authors of GestaltMatcher. The training details are presented in Table \ref{tab_learning_details}.
 	
-	<Table>
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|l|l|}
+			\hline
+			\textbf{Hyperparameter} & \textbf{Value}                                                         \\ \hline
+			Loss function           & \begin{tabular}[c]{@{}l@{}}weighted \\ cross entropy loss\end{tabular} \\ \hline
+			Input image size        & 100 x 100                                                              \\ \hline
+			Batch size              & 280                                                                    \\ \hline
+			Epochs                  & 200                                                                    \\ \hline
+			Learning rate           & 0.05                                                                   \\ \hline
+			Momentum                & 0.9                                                                    \\ \hline
+		\end{tabular}
+	\caption{GestaltMatcher classifier training details}
+	\label{tab_learning_details}
+	\end{table}
+
     \section{Explanation Methods - GestaltMatcher Integration}
      \begin{figure}[H]
     	\hspace*{0.5cm}      
@@ -70,9 +85,9 @@
     \end{figure}
     
     \subsubsection{a. Selection of Images}
-    The first step involved in generating composite faces is to select the right consituent images. A considerable number of images in GestaltMatcherDataBase (GMDB) are characterized by poor visual quality and/or presence of artifacts. A few such as the ones shown in Figure \ref{fig_gmdb_poor} also contain objects like nasal catheter tubes, spectacles, and black strips which were introduced to conceal patient identities. Therefore, we hand picked images from each of 139 syndrome classes to remove the unsuitable candidates for generating composite faces.
+    The first step involved in generating composite faces is to select the right consituent images. A considerable number of images in GestaltMatcherDataBase (GMDB) are characterized by poor visual quality and/or presence of artifacts. A few such as the ones shown in Figure \ref{fig_gmdb_poorq} also contain objects like nasal catheter tubes, spectacles, and black strips which were introduced to conceal patient identities. Therefore, we hand picked images from each of 139 syndrome classes to remove the unsuitable candidates for generating composite faces.
     
-       \begin{figure}[H]\label{fig_gmdb_poor}
+       \begin{figure}[H]
     	   	\centering
     	   	\begin{subfigure}[b]{0.17\textwidth}
     		   		\centering
@@ -95,6 +110,7 @@
        			\includegraphics[width=\textwidth]{chapter5/poor_5.jpg}
        		\end{subfigure}
     	   	\caption{Examples of images rejected for composite face generation}
+    	   	\label{fig_gmdb_poorq}
     	   \end{figure}
     \subsubsection{b. Facial Landmark Regression}
     Landmark points act as anchors to align the constituent images of composite faces. 68 landmark points are calculated for each input facial image using the dlib \footnote{dlib library - \url{http://dlib.net/}.}library's face detector functionality. Internally, dlib uses a CNN based max-margin object detector to perform the task.
@@ -102,9 +118,10 @@
         \centering
     	\hspace*{0cm}      
     	\includegraphics[scale=0.20]{chapter5/facial_landmarks.jpg}
-    	\caption{An illustration showing positions of facial landmark points considered by dlib face detector. Image source: \ref{}}
+    	\caption{An illustration showing positions of facial landmark points considered by dlib face detector. Image source: Pyimagesearch \protect\footnotemark.}
     	\label{fig_gm_pipeline}
     \end{figure}
+	\footnotetext{Pyimagesearch - \url{https://pyimagesearch.com/2017/04/03/facial-landmarks-dlib-opencv-python/}}
     \subsubsection{c. Coordinate Transformation}
     The next step warps the consituent facial images in a such a way that their landmark points corresponding to the right corner of the right eye and the left corner of the left eye are shifted to locations $P_{1}$ (0.3 x image width, 0.3 x image height) and $P_{2}$ (0.7 x image width, 0.3 x image height) respectively. In practice this is achieved by computing and applying a similarity transformation matrix using OpenCV library's \enquote{estimateRigidTransform} method.
     
@@ -149,8 +166,7 @@
 	\end{figure}
 	\end{enumerate}    
     \subsection{D. Dataset Imbalance - Explanation Quality Analysis}
-    
-    
+    The aim of this experiment is to investigate the effects of class imbalance in GMDB on contents and quality of generated attribution maps. We trained four classifier models each with different numbers and choices for syndrome classes, using the same network architecture and hyperparameters as that of the 139 class GestaltMatcher classifier model. Table \ref{} summarizes the experimental setup.
    \section{Evaluation Questionnaire}
    We considered six genetic syndrome classes from GMDB for evaluation: Cornelia de Lange syndrome (CDLS), Williams Beuren syndrome (WBS),  Coffin-Siris syndrome (CSS),  Nicolaides-Baraitser syndrome (NBS), Hyperphosphatasia-intellectual disability syndrome or Hyperphosphatasia mental retardation syndrome (HPMRS) and Smith-Lemli-Opitz-Syndrome (SMOS). The syndromes were chosen as they make up majority classes of GMDB. Their respective composite faces, patient-wise attribution maps of correctly predicted test samples and syndrome-wise attribution maps, were compiled into a questionnaire which can be accessed at \url{https://forms.gle/aRru9aeCyZaqpURP9}. The survey was designed to be self-explanatory in nature, containing all necessary information for the evaluator.
    
@@ -183,20 +199,6 @@
     
    \subsubsection{Section 3. Patient-wise Attribution Map Evaluation}
    This part of the questionnaire contains an introduction which briefly explains the objective of our research work to the evaluator, especially regarding the integration of XAI methods to the GestaltMatcher model. Subsequently, it presents the clinician a set of five questions for every patient-wise attribution map in the questionnaire.
-   \begin{table}[H]
-   	\centering
-   	\begin{tabular}{|l|l|}
-   		\hline
-   		\multicolumn{1}{|c|}{\textbf{Syndrome name}}       & \multicolumn{1}{c|}{\textbf{Sample count}} \\ \hline
-   		Cornelia de Lange syndrome                         & 6                                          \\ \hline
-   		Williams Beuren syndrome                           & 6                                          \\ \hline
-   		Coffin-Siris syndrome                              & 1                                          \\ \hline
-   		Nicolaides-Baraitser syndrome                      & 3                                          \\ \hline
-   		Hyperphosphatasia-intellectual disability syndrome & 3                                          \\ \hline
-   		Smith-Lemli-Opitz-Syndrome                         & 4                                          \\ \hline
-   	\end{tabular}
-   	\caption{Number of samples from the chosen set of syndromes present in the evaluation questionnaire}
-   \end{table}
    \subsubsection{Section 4. Syndrome-wise Attribution Map Evaluation}
    The final section of the questionnaire contains a background subsection followed by a question asking the evaluator to pick upto four of the twelve presented syndrome-wise maps and rank them.
    
