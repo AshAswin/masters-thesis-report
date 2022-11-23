@@ -95,14 +95,43 @@ The term \enquote{guided backpropagation} comes from the use of the additional n
 The technique also takes in to account that a zero contribution could be due to cancellation of positive and negative contributions from a pair of entities. The application of DeepLIFT also depends on the choice of target neuron’s layer, logit or softmax layer in a classifier network, for example. Authors demonstrate the approach by applying it to a CNN trained on MNIST dataset \cite{lecun1998gradient} and an RNN trained on simulated genomic data.\\
 The benchmarking on MNIST classifier for various methods was performed on basis of the change in log-odds score, when a selected pixels of a given image belonging to class c0 were erased to convert it to an image of some target class ct. The upper section of figure illustrates the result of masking pixels ordered as the most significant for converting to target classes 3 and 6. As graphically represented in bottom part of figure, DeepLIFT outperformed other backpropagation based methods.
 
-\section{Layer-wise Relevance Propagation}
+\subsection{Layer-wise Relevance Propagation}
+
+Layer-wise Relevance Propagation (LRP) \cite{lrp} is a complete path attribution method, whose propagation procedure obeys the conservation principle. This ensures that during back propagation, every neuronal unit receives its share of a given network’s output, and continues to equally redistribute it to its predecessor units, until the input layer is reached. Authors of the work claims that the method suffers less from the \enquote{Clever Hans} effect, which occurs when a model produces correct predictions based on wrong features. Besides they show the equivalence between their approach and Taylor decomposition of the network output/activations into contribution scores of individual neurons in lower layers. Further more, they stress upon the fact that their method is computationally less expensive when compared to other approaches like occlusion sensitivity maps and Local Interpretable Model-agnostic Explanations (LIME) \cite{lime}.
+
+Similar to Deep LIFT, LRP operates based on a set of propagation rules, which are framed based on the conservation principle. The rule set defines the logic to propagate relevance scores through different layers, and also provides parameters that can be set based on the application domain, to produce meaningful attribution maps. Although, there are a few variants of LRP each with its own rule set available, only three basic variants were considered for this work and discussed here.
+
+\subsubsection{LRP-0}
+In general,  the relationship between the relevance score Rk which is propagated from layer k, onto a neuron in a subsequent lower layer j as Rj can be expressed as follows:
+
+<eqn1>
+
+where $R_j$ is represented as a linear combination of relevance scores from layer $k$, weighted by the  contribution $Z_{jk}$ of neuron $j$ to $k$, normalized with respect to sum of all contribution from the layer to $R_k$.
+
+The contribution $Z_{jk}$ is measured as the activation times its gradient with respect to $R_k$. Substituting the same in eqn 1 gives the following:\\
+<eqn2>
 
 
+The rule also satisfies the fact that 
+
+<Eqn3>
+
+which means to say that a neuron with a zero activation or zero weight association has zero relevance to the output score.
+
+\subsubsection{LRP-$\epsilon$}
+
+LRP-$\epsilon$ is obtained by slightly modifying the LRP-0 rule. The rule incorporates an extra parameter $\epsilon$ in the expression’s denominator, which is responsible for absorbing some relevance from Rk, when it is contradictory. With an increase in $\epsilon$, only the most important explanation factors survive, leading to less noisy explanations. Though, a very high value of $\epsilon$ can result in sparse attribution maps as depicted in Figure \ref{}.
+
+<eqn>
+
+\subsubsection{LRP-$\gamma$}
+LRP-$\gamma$ is another enhancement to LRP-0, and it introduces the hyper-parameter $\gamma$, which indicates the weightage given to the positive contributions. With an increase in the value of $\gamma$, negative contributions begin to disappear. There are other rules of choice to adopt such LRP-$\alpha\beta$ enabling the treatment of positive and negative contributions in an asymmetric manner.
+
+<eqn>
 
 
-
-
-
+Hyperparameters such as $\epsilon$ and $\gamma$ play a vital role in deciding the meaningfulness of attribution maps and are to be set based on repeated experimentation and domain knowledge. Often a composite version of LRP, using all three rules is recommended to obtain human understandable attributions.
+Authors recommend to  use LRP-0 for the last layers, as the propagation rule closely approximates the underlying  neural network function. This is desirable in handling those layers where concepts from different classes are closely entangled. LRP-$\epsilon$ is recommended for the middle layers, which are relatively less entangled when compared to the last ones. They claim that LRP-$\epsilon$ effectively filters out spurious variations resulting from weight sharing, and retains the most salient explanation factors. LRP-$\gamma$ is preferred for the lower layers as this rule spreads the propagated relevance score uniformly to features in an uniform manner. 
 \section{Layer Attribution Methods}
 Layer attribution methods evaluate contribution of each neuronal unit in a given convolutional layer to a model's output. This section discusses three SOTA methods of the category, considered for our work.
 \subsection{GradCAM}
@@ -128,7 +157,7 @@ Grad-CAM is one of the most widely used approaches in obtaining attribution map 
    Authors evaluate the method on three different tasks: weakly-supervised localization, weakly-supervised segmentation and pointing game experiment \cite{zhang2018top}. The approach is also evaluated and benchmarked on its ability to generate discriminative, trust-worthy, faithful and interpretable attribution maps. A couple of neural network models with different architectures (AlexNet \cite{krizhevsky2012imagenet} and VGG-16) are used for evaluation, to determine the method’s performance consistency across architectures.
    Finally, the work also demonstrates the association of a given concept with a neuron, similar to the ones presented in \cite{matthew2014visualizing} and \cite{zhou2014object}.\\
 	Authors also demonstrate it use in analyzing failure modes in neural network models and identifying bias in dataset.
-	The approach is considered to be computationally in-expensive when compared to perturbation based methods such as Local Interpretable Model-agnostic Explanations (LIME)\cite{lime} or SHapley Additive exPlanations (SHAP)\cite{shap}, yet producing interpretable and discriminative attribution maps.
+	The approach is considered to be computationally in-expensive when compared to perturbation based methods such as LIME or SHapley Additive exPlanations (SHAP)\cite{shap}, yet producing interpretable and discriminative attribution maps.
 	
 \subsection{HiResolution Class Activation Mapping (HiResCAM)}
 	Draelos et. al propose HiResCAM \cite{draelos2020hirescam} as a generalization of CAM, and the method aims to use feature maps of a layer directly for visualization without averaging unlike GradCAM. The authors demonstrate why the gradient averaging step in attribution methods like GradCAM limit them from being reliable to highlight a neural network model’s regions of attention in an image. Besides, they mathematically show the conceptual relationship between HiResCAM and other CAM approaches. The faithfulness of explanations produced by HiResCAM is shown, by conducting certain experiments on natural images whose results were verified using crowd-sourced assessment.\\

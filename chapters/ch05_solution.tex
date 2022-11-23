@@ -40,7 +40,7 @@
 	Based on the recommendation and our observations, we chose layer 14 (refer conv\_9 in Figure \ref{fig_layer_visual}), the last convolutional layer to compute attribution maps.\\
 	\subsubsection{CustomGradCAM}
 	Apart from the last convolution layer, we also observed that applying GradCAM to layers 10.a and 11.a produced visualizations in which certain key features of human face are highlighted (refer conv\_6 and conv\_7 in Figure \ref{fig_layer_visual}). Therefore, in order to include the layers in our scope, we averaged their attribution maps along with the ones produced by layer 14. The resulting map is presented under the name of \enquote{CustomGradCAM}. We used the Application Programming Interfaces (APIs) offered by PyTorch \cite{paszke2019pytorch}, Captum \cite{kokhlikyan2020captum} and an open-source library \cite{jacobgilpytorchcam} to integrate the explanation methods to the GestaltMatcher classifier model.
-	\begin{figure}[ht]
+	\begin{figure}[H]
 		\hspace*{1.0cm}      
 		\includegraphics[scale=0.4]{chapter5/gestalt_matcher_arch.png}
 		\caption{Architecture of GestaltMatcher classifier. The convolution layer 14 used to generate attribution maps using GradCAM and HiResCAM methods is highlighted using a blue box. Layers (10.a, 11.a and 14) that are used by the CustomGradCAM method are highlighted using cyan boxes. }
@@ -401,8 +401,10 @@
    	(Rank them from 1 to 4 (with 1 as the top choice)). If you feel that none of them
    	highlight the key features select None in all rows)
    	
-   	<Options A till D to assigned ranks>		
-   	
+   	<Options A till D to assigned ranks>
+   			
+   	\vspace{.2cm}
+   	2e. Do you find attribution maps to be helpful in evaluating the image?
    	\vspace{.5cm}
    	\\ \hline
    \end{tabular}
