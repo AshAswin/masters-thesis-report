@@ -77,12 +77,8 @@
 	\label{fig_wil_gmdb}
 	\end{figure}
 
-
-
-
-
 	\subsubsection{Hyperphosphatasia with Mental Retardation Syndrome}
-	 
+	Hyperphosphatasia with intellectual disability or Mental Retardation Syndrome (HPMRS) 
 	 \begin{figure}[H]\label{fig_hpmrs}
 	 	\centering
 	 	\begin{subfigure}[t]{0.17\textwidth}
@@ -160,20 +156,23 @@
    \end{figure}
     
 
- \begin{table}[H]
- 	\begin{tabular}{|c|c|c|c|c|c|c|}
- 		\hline
- 		\textbf{Syndrome} & \textbf{Sample count} & \textbf{\begin{tabular}[c]{@{}c@{}}Clinician \\ specializes in\\ syndrome\end{tabular}} & \textbf{Precision} & \textbf{Recall} & \multicolumn{1}{l|}{\textbf{F1-score}} & \textbf{Accuracy} \\ \hline
- 		\textbf{CDLS}              & 6                     & yes                                                                                     & 0.83               & 0.83            & 0.83                                   & 0.83              \\ \hline
- 		\textbf{WBS}               & 6                     & yes                                                                                     & 0.75               & 0.50            & 0.60                                   & 0.50              \\ \hline
- 		NBS               & 3                     & no                                                                                      & 0.22               & 0.67            & 0.33                                   & 0.67              \\ \hline
- 		\textbf{HPMRS}             & 3                     & yes                                                                                     & 1.00               & 1.00            & 1.00                                   & 1.00              \\ \hline
- 		SMOS              & 4                     & no                                                                                      & 0.00               & 0.00            & 0.00                                   & 0.00              \\ \hline
- 		CFS               & 1                     & no                                                                                      & 1.00               & 1.00            & 1.00                                   & 1.00              \\ \hline
- 	\end{tabular}
- \caption{Diagnostic performance of the clinician on samples in the questionnaire}
-  \label{tab_cl_acc}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Syndrome} & \textbf{Sample count} & \textbf{\begin{tabular}[c]{@{}c@{}}Clinician\\ specializes in \\ syndrome\end{tabular}} & \textbf{Accuracy} \\ \hline
+		CDLS              & 6                     & yes                                                                                     & 0.83              \\ \hline
+		WBS               & 6                     & yes                                                                                     & 0.50              \\ \hline
+		NBS               & 3                     & no                                                                                      & 0.67              \\ \hline
+		HPMRS             & 3                     & yes                                                                                     & 1.00              \\ \hline
+		SMOS              & 4                     & no                                                                                      & 0.00              \\ \hline
+		CFS               & 4                     & no                                                                                      & 1.00              \\ \hline
+	\end{tabular}
+\caption{Diagnostic performance of the clinician on samples in the questionnaire}
+\label{tab_cl_acc}
 \end{table}
+ 
+
   \subsubsection{Usefulness of Attribution Maps in Diagnoses}
   Fig \ref{fig_patient_flow} in Chapter \ref{ch_method} enumerated the following possible inferences, which can obtained from responses in the patient-wise attribution map evaluation section of the questionnaire:
   \begin{itemize}

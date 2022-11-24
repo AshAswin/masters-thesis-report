@@ -9,17 +9,23 @@
     \subsection{Occlusion Sensitivity Maps}
     Occlusion sensitivity mapping \cite{matthew2014visualizing} is a model-agnostic perturbation based method, which generates explanations by manipulating parts of the input image. The approach is computationally expensive, O(\#simultaneous occlusions * \#features * \#ablations\_per\_eval * 1/\#strides), and is included in this work to verify if Gestalt Matcher model is focusing on key facial features, or simply using the surrounding context to produce predictions. This is achieved by systematically occluding different portions of the input image with a black square or rectangular mask, and computing the difference in outputs (logit scores of the target class). In this work, we use a  black square mask of dimensions 10x10. Important portions of the input when occluded, result in relatively larger logit score differences, than the trivial ones. The differences are plotted on the image, yielding the occlusion sensitivity maps.
     
+    \begin{figure}[H]
+    	\includegraphics[width=\textwidth]{images/occlusion_sensitivity_map}
+    	\caption{An illustration of occlusion sensitivity mapping. Image source: \cite{matthew2014visualizing}}
+    	\label{osm}
+    \end{figure}
+    
     \subsection{Deconvolution}
     Zeiler and Fergus proposed the \enquote{Deconvolution}\cite{matthew2014visualizing} approach to visualize and provide insights into the functions learned by intermediate layers of a CNN. It is one of the earliest attribution techniques, which produces visualizations based on computing gradient of loss function with respect to a given input. The work acts a baseline till date for development and evaluation of new pixel attribution techniques.\\
     The method uses a deconvolution counterpart for every building block of a CNN, to obtain reverse mapping from features to input pixels. The idea of deconvolution was first introduced by Zeiler et al. \cite{zeiler2011adaptive}, as a way to perform unsupervised learning. In order to obtain attribution maps using the Deconvolution approach, the first step is to attach each block of convnet with its deconvolution counterpart as shown in the figure 1. Every activation except the ones belonging to the class of interest is set to zero. The activation value is then backpropagated through the deconvolution blocks such as unpooling, rectification and transposed convolution, all the way to the input layer. Deconvolution blocks act according to a pre-defined set of rules. The transposed convolution block performs the inverse of convolution operation by using transposed versions of the same filters. This is equivalent to flipping a given filter both in vertical and horizontal directions. In order to backtrack activations through max-pooling layer (.i.e. using the unpooling layer), indices corresponding to maximum activations in every layer, are first stored during the forward pass and later retrieved during the back propagation phase. However, the use of indices or switches from the forward pass, constrains the visualization on the input image \cite {guided_backprop}.\\ 
     Authors test their method on an AlexNet \cite{krizhevsky2012imagenet} trained on the ImageNet \cite{krizhevsky2012imagenet}, Caltech-101 \cite{caltech_101} and Caltech-256 \cite{caltech_256} and PASCAL2012 \cite{pascal-voc-2012} datasets. As a first step, they visualize the top 9 feature maps of the each of the first five layers, to show the proportional increase of complexity in features with respect to their receptive fields. The visualizations are obtained by backtracking the strongest activation of a feature map for most of the data samples, all the way until a given input, using the deconvolution rules.The paper also discusses about the proportionality between the time taken for a given layer to learn features and its corresponding depth. Further, it shows that features learned by top layers are more invariant to transformations like translations, rotations and scale changes.\\
     The work evaluates itself by qualitatively comparing its resulting attribution maps with occlusion sensitivity maps. Occlusion sensitivity maps are obtained by systematically occluding portion of an image and analyzing the given classifier’s output, to determine the most discriminative regions as shown in the first image of Figure \ref{osm}.
-    \begin{figure}[ht!]
-    \includegraphics[width=\textwidth]{images/occlusion_sensitivity_map}
-    \caption{An illustration of occlusion sensitivity mapping}
-    \label{osm}
-\end{figure}
-    
+
+    \begin{figure}[H]
+    	\includegraphics[width=\textwidth]{images/chapter3/deconv_crop.png}
+    	\caption{Top: A convnet layer (right) attached to its deconv counterpart(left). Bottom: An illustration of the unpooling process. Image source: \cite{matthew2014visualizing}}
+    	\label{osm}
+    \end{figure}
     
     
  \subsection{Saliency Maps}
@@ -51,8 +57,33 @@
  The work evaluates its outputs on test split of the data set for the localization task in the ILSVRC-2013 \cite{ILSVRC15} challenge, where it achieves 46.4\% top-5 error in spite of its simplicity.
  In hindsight, apart from the strategy used to reverse the ReLU layer this approach is equivalent to Deconvnet \cite{matthew2014visualizing}.
  
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.25]{images/chapter3/saliency_1.png}
+ 	\caption{An example for class model visualization. Image source: \cite{simonyan2013deep}}
+ 	\label{fig_cmv}
+ \end{figure}
+ 
+  \begin{figure}[H]
+  	\centering
+ 	\includegraphics[scale=0.2]{images/chapter3/saliency_2.png}
+ 	\caption{Examples of saliency maps. Image source: \cite{simonyan2013deep}}
+ 	\label{fig_saliency_map}
+ \end{figure}
+ 
+ 
+ 
+ 
  \subsection{Guided Backpropagation}
  Springenberg et al. proposed a new variant of the deconvolution approach in their work, as a means to analyze their \enquote{All Convolutional Net} architecture, which replaces max-pooling layers by convolutional layers with increased stride. The first objective of this work was to empirically prove the equivalence (in terms of predictive performance) between a max-pooling layer and a convolutional layer with an increased stride. This was achieved by evaluating a custom cnn model with max-pooling layers against its convolutional counterpart on three datasets: CIFAR-10, CIFAR-100 and ILSVRC 2012. In all cases, performances of the all convolutional models were on par with their max pooling counterparts. The second objective was to determine the quality of representations learned by the intermediate layers of the all convolutional neural network models. In order to achieve this, authors proposed a visualization  approach, which can be considered as a slight modification of the Deconvnet \cite{matthew2014visualizing} technique.
+  \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.25]{images/chapter3/guided_backprop.png}
+ 	\caption{A graphical representation of the saturation problem. Image source: \cite{shrikumar2017learning}}
+ 	\label{fig_deep_lift2}
+ \end{figure}
+ 
  \subsubsection{Back propagation through ReLU}
  One of the most significant difference between Saliency Maps \cite{simonyan2013deep}, Deconvnet \cite{matthew2014visualizing} and Guided backprop \cite{guided_backprop} approaches is the strategy used by these methods to backpropagate gradients through the ReLU layer. 
  
@@ -68,13 +99,17 @@
 	%\end{equation*}
  \end{itemize}
 
-Figure b illustrates differences between back propagation strategies with help of an example feature map. 
-
 The term \enquote{guided backpropagation} comes from the use of the additional navigation signal, to selectively back propagate only the positive gradients of the positively activated neuronal units. Though guided backprop was devised to show the learning capability of the all convolutional network architectures, authors show the effectiveness of the technique on the ones with max-pooling units. Guided backprop produced significantly more accurate representation, especially  for higher layers, when compared to Deconvnet and Saliency maps.
 
 \subsection{Deep LIFT}
- Shrikumar et al. propose an attribution technique, which assigns scores to input pixels based on their contribution to change in activation of each neuronal unit with respect to a reference value, which is chosen based on the problem in hand. Authors claim the technique to be computationally inexpensive, and yield meaningful representations in comparison with other methods. Besides, the technique is devised in a way that it is suitable for neural net variants apart from CNN like Recurrent Neural Networks (RNN).\\
+ Shrikumar \etal \cite{shrikumar2017learning} propose an attribution technique, which assigns scores to input pixels based on their contribution to change in activation of each neuronal unit with respect to a reference value, which is chosen based on the problem in hand. Authors claim the technique to be computationally inexpensive, and yield meaningful representations in comparison with other methods. Besides, the technique is devised in a way that it is suitable for neural net variants apart from CNN like Recurrent Neural Networks (RNN).\\
  Intuitively, Deep LIFT seeks to explain the deviation in output from some reference output in terms of deviation in input from its respective reference. The motivation to use a reference value, arises from the need to handle the \enquote{saturation problem}.
+  
+ \begin{figure}[h]
+ 	\includegraphics[width=\textwidth]{images/chapter3/deep_lift.png}
+ 	\caption{A graphical representation of the saturation problem. Image source: \cite{shrikumar2017learning}}
+ 	\label{fig_deep_lift}
+ \end{figure}
  \subsubsection{Saturation problem}\label{sec_saturation}
  The saturation problem can be explained intuitively with an example. The figure illustrates a simple neural network whose outputs saturates, when the sum of its inputs ($i_1$ and $i_2$) exceeds 1. Application of any perturbation or gradient based attribution method, to this scenario would lead to creation of undesirable artifacts. For the methods of earlier type, perturbing inputs will not cause any changes in the output. On the other hand, gradient based methods will suffer from lack of gradients in the region where $i_1+i_2 > 1$.
  \subsubsection*{Working}
@@ -93,7 +128,16 @@ The term \enquote{guided backpropagation} comes from the use of the additional n
  	\item Reveal-cancel rule which enables the measurement of marginal effect of having an input over all possible orderings, similar to Shapely values \cite{shapley_values}. 
  \end{itemize}
 The technique also takes in to account that a zero contribution could be due to cancellation of positive and negative contributions from a pair of entities. The application of DeepLIFT also depends on the choice of target neuron’s layer, logit or softmax layer in a classifier network, for example. Authors demonstrate the approach by applying it to a CNN trained on MNIST dataset \cite{lecun1998gradient} and an RNN trained on simulated genomic data.\\
-The benchmarking on MNIST classifier for various methods was performed on basis of the change in log-odds score, when a selected pixels of a given image belonging to class c0 were erased to convert it to an image of some target class ct. The upper section of figure illustrates the result of masking pixels ordered as the most significant for converting to target classes 3 and 6. As graphically represented in bottom part of figure, DeepLIFT outperformed other backpropagation based methods.
+The benchmarking on MNIST classifier for various methods was performed on basis of the change in log-odds score, when a selected pixels of a given image belonging to class c0 were erased to convert it to an image of some target class ct. The upper section of figure illustrates the result of masking pixels ordered as the most significant for converting to target classes 3 and 6. As graphically represented in bottom part of Figure \ref{fig_deep_lift2}, DeepLIFT outperformed other backpropagation based methods.
+
+
+ \begin{figure}[H]
+ 	\centering
+	\includegraphics[scale=0.5, trim=0cm 0cm 0cm 1cm, clip]{images/chapter3/deep_lift_2.png}
+	\caption{A graphical representation of the saturation problem. Image source: \cite{shrikumar2017learning}}
+	\label{fig_deep_lift2}
+\end{figure}
+
 
 \subsection{Layer-wise Relevance Propagation}
 
@@ -131,7 +175,19 @@ LRP-$\gamma$ is another enhancement to LRP-0, and it introduces the hyper-parame
 
 
 Hyperparameters such as $\epsilon$ and $\gamma$ play a vital role in deciding the meaningfulness of attribution maps and are to be set based on repeated experimentation and domain knowledge. Often a composite version of LRP, using all three rules is recommended to obtain human understandable attributions.
-Authors recommend to  use LRP-0 for the last layers, as the propagation rule closely approximates the underlying  neural network function. This is desirable in handling those layers where concepts from different classes are closely entangled. LRP-$\epsilon$ is recommended for the middle layers, which are relatively less entangled when compared to the last ones. They claim that LRP-$\epsilon$ effectively filters out spurious variations resulting from weight sharing, and retains the most salient explanation factors. LRP-$\gamma$ is preferred for the lower layers as this rule spreads the propagated relevance score uniformly to features in an uniform manner. 
+Authors recommend to  use LRP-0 for the last layers, as the propagation rule closely approximates the underlying  neural network function. This is desirable in handling those layers where concepts from different classes are closely entangled. LRP-$\epsilon$ is recommended for the middle layers, which are relatively less entangled when compared to the last ones. They claim that LRP-$\epsilon$ effectively filters out spurious variations resulting from weight sharing, and retains the most salient explanation factors. LRP-$\gamma$ is preferred for the lower layers as this rule spreads the propagated relevance score uniformly to features in an uniform manner.
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{images/chapter3/lrp.png}
+	\caption{A graphical representation of the saturation problem. Image source: \cite{shrikumar2017learning}}
+	\label{fig_deep_lift2}
+\end{figure}
+
+
+
+
+ 
 \section{Layer Attribution Methods}
 Layer attribution methods evaluate contribution of each neuronal unit in a given convolutional layer to a model's output. This section discusses three SOTA methods of the category, considered for our work.
 \subsection{GradCAM}
@@ -158,9 +214,15 @@ Grad-CAM is one of the most widely used approaches in obtaining attribution map 
    Finally, the work also demonstrates the association of a given concept with a neuron, similar to the ones presented in \cite{matthew2014visualizing} and \cite{zhou2014object}.\\
 	Authors also demonstrate it use in analyzing failure modes in neural network models and identifying bias in dataset.
 	The approach is considered to be computationally in-expensive when compared to perturbation based methods such as LIME or SHapley Additive exPlanations (SHAP)\cite{shap}, yet producing interpretable and discriminative attribution maps.
+	 \begin{figure}[H]
+		\hspace{-1cm}
+		\includegraphics[scale=0.3]{images/chapter3/gradcam.png}
+		\caption{An illustration depicting application of GradCAM for different tasks. Image source: \cite{selvaraju2017grad}}
+		\label{fig_gradcam}
+	\end{figure}
 	
 \subsection{HiResolution Class Activation Mapping (HiResCAM)}
-	Draelos et. al propose HiResCAM \cite{draelos2020hirescam} as a generalization of CAM, and the method aims to use feature maps of a layer directly for visualization without averaging unlike GradCAM. The authors demonstrate why the gradient averaging step in attribution methods like GradCAM limit them from being reliable to highlight a neural network model’s regions of attention in an image. Besides, they mathematically show the conceptual relationship between HiResCAM and other CAM approaches. The faithfulness of explanations produced by HiResCAM is shown, by conducting certain experiments on natural images whose results were verified using crowd-sourced assessment.\\
+	Draelos et. al proposed HiResCAM \cite{draelos2020hirescam} as a generalization of CAM, and the method aims to use feature maps of a layer directly for visualization without averaging unlike GradCAM. The authors demonstrate why the gradient averaging step in attribution methods like GradCAM limit them from being reliable to highlight a neural network model’s regions of attention in an image. Besides, they mathematically show the conceptual relationship between HiResCAM and other CAM approaches. The faithfulness of explanations produced by HiResCAM is shown, by conducting certain experiments on natural images whose results were verified using crowd-sourced assessment.\\
 	HiResCAM can be seen as a modification of Grad-CAM, as it is primarily designed to address the later’s limitation caused by its averaging step. As described in \ref{sec_gradcam} and illustrated in the figure below, importance weight $\alpha^f$ for a feature map $f$, is computed by computing the mean of gradients over spatial dimensions. However, the process of averaging may cause the final attribution map not highlight locations within the image which the model used to make predictions.\\
 	The above figure illustrates the working of GradCAM and HiResCAM methods. Let $s_m$ be the logit score of a CNN model for a given image input, with respect to class $m$. GradCAM computes the derivative $\partial s_m / \partial A$, which yields the gradient for every position of a feature map. The gradients are then averaged to yield ${\alpha_m}^f$ for every map. Following which, the gradient values are multiplied with feature activation values $(\alpha_m^f A^f)$. While HiResCAM also computes  $\partial s_m / \partial A$, they are multiplied directly with feature map activation values leaving out the averaging procedure. Feature map values across channels are then combined as sum to yield the chosen layer’s attribution map. By skipping the averaging procedure, HiResCAM preserves the effect of the gradients across every feature map.\\
 	Similar to GradCAM, authors recommend using the last convolutional layers for visualization. Apart from proposing the method, the authors also argue that explaining a model doesn’t correspond to weakly-supervised segmentation, as the objective of the former to reveal the working of the model while the latter is to localize an object of interest. The work reiterates the fact that every explanation method aims to describe different aspects of model. They also suggest the usage of metrics like IOU to evaluate the localization capability of neural network model than leveraging them to evaluate the correctness of an explanation method. HiResCAM aims to produce faithful explanations even if a model’s regions of interest lie outside an object of interest.\\
