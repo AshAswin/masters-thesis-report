@@ -523,7 +523,7 @@ Similar to other experimental artifacts, the clinician evaluated composite faces
     \section{Inferences}
     In this section, inferences drawn from the results of conducted experiments are presented.  
     \begin{itemize}
-    	\item \textbf{1. Nasal profile,  a discriminative feature for syndrome recognition:} We observed the nose region to be highlighted in attribution maps generated for samples of many other classes, which were not represented in the questionnaire. Figure \ref{} contain some examples of such instances.  The recurrent behavior of the attribution methods to highlight the nose region, may indicate the facial region's distinctiveness and importance in the diagnosis of rare genetic conditions. In order to verify this hypothesis, we looked into Online Mendelian Inheritance in Man (OMIM\footnotetext[1]{\url{https://www.omim.org}}), an online compendium of human gene and phenotypes. We searched for facial features linked to syndromes of the ten largest classes of GMDB (Refer Table \ref{tab_nose_gmdb}). We found eight out of the ten syndrome to be linked to atleast feature in the nose region. This finding supports our hypothesis, and possibly could help the scientific community in discovering new gene-phenotype associations. 
+    	\item \textbf{1. Nasal profile,  a discriminative feature for syndrome recognition:} We observed the nose region to be highlighted in attribution maps generated for samples of many other classes, which were not represented in the questionnaire. Figure \ref{fig_nose_region} contain some examples of such instances.  The recurrent behavior of the attribution methods to highlight the nose region, may indicate the facial region's distinctiveness and importance in the diagnosis of rare genetic conditions. In order to verify this hypothesis, we looked into Online Mendelian Inheritance in Man (OMIM\footnotetext[1]{\url{https://www.omim.org}}), an online compendium of human gene and phenotypes. We searched for facial features linked to syndromes of the ten largest classes of GMDB (Refer Table \ref{tab_nose_gmdb}). We found eight out of the ten syndrome to be linked to atleast feature in the nose region. This finding supports our hypothesis, and possibly could help the scientific community in discovering new gene-phenotype associations. 
     	
     	\begin{table}[H]
     		\centering
@@ -544,13 +544,37 @@ Similar to other experimental artifacts, the clinician evaluated composite faces
     		\caption{Features in the nose region associated with the ten largest classes of GMDB dataset. Source: OMIM}
     		\label{tab_nose_gmdb}
     	\end{table}
-    	\item{\textbf{2. Attribution methods are limited by their expressiveness}:} Attribution methods highlight the regions that were relevant for a certain prediction by a neural network. Although attribution maps are helpful in localizing a network's attention regions, they lack the capability to provide the context of the explanation. In the case of this research work, the nose region gets highlighted in most of the syndromes' attribution maps. However, we are unable to deduce what particular feature attributes are used by GestaltMatcher for its predictions, for example, symmetry or shape profile of the nose. This could be determined using other XAI techniques such as feature and concept visualizations (Refer \ref{sec_nn_methods}).
+    	\item{\textbf{2. Attribution methods are limited by their expressiveness}:} Attribution methods highlight the regions that were relevant for a certain prediction by a neural network. Although attribution maps are helpful in localizing a network's attention regions, they lack the capability to provide the context of the explanation. In the case of this research work, the nose region gets highlighted in most of the syndromes' attribution maps. However, we are unable to deduce what particular feature attributes are used by GestaltMatcher for its predictions, for example, symmetry or shape profile of the nose. This could be determined using other XAI techniques such as feature and concept visualizations (refer Section \ref{sec_nn_methods}).
     	
     	\item{\textbf{3. All explanations do not carry a real-world meaning:}} Each XAI method considered in this work approaches the problem of attribution in its own way. GradCAM converts the problem into \enquote{weakly supervised localization}, and aims to localize the target class in form of an object. This proves helpful when classes represent real-world objects, which have a well defined physical form. In our case, the target categories represent genetic syndromes which are entities characterized by distinct features, but dont exist as individual objects.\\ 
-    	HiResCAM, a more faithful approach avoids the gradient-averaging step to reveal all attention regions of a neural network model. It can be inferred from the clinician's evaluation that unfiltered explanations produced by the method was not chosen to highlight the facial features, that are considered important for diagnosis by humans. This is possibly because the GestaltMatcher model focuses on multiple sparse sections of a facial image, whose composition does not correspond to a feature of a given syndrome. The success of FullGrad approach can be attributed to its layer-agnostic nature and ability to consolidate both input and neuronal attributions into a single representation.
+    	HiResCAM, a more faithful approach avoids the gradient-averaging step to reveal all attention regions of a neural network model. It can be inferred from the clinician's evaluation that unfiltered explanations produced by the method was not chosen to highlight the facial features, that are considered important for diagnosis by humans. This is possibly because the GestaltMatcher model focuses on multiple sparse sections of a facial image, whose composition does not correspond to a feature of a given syndrome. The success of FullGrad approach can be attributed to its layer-agnostic nature, and ability to consolidate both input and neuronal attributions into a single representation.
     	
-    	\item{\textbf{4. XAI methods are not ready for high-stake applications}} 
+    	\item{\textbf{4. XAI methods are not ready for high-stake applications:}} 
     \end{itemize} 
-	
+		\begin{figure}[H]
+		\centering			
+		\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/2_nose.png}
+			\caption{Widemann-Steiner syndrome}	
+		\end{subfigure}
+		\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/3_nose.png}
+			\caption{Mucopolysaccharidoses}
+		\end{subfigure}
+		\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/6_nose.png}
+			\caption{Baraitser-Winter syndrome}
+		\end{subfigure}
+		\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/9_nose.png}
+		\caption{Treacher Collins syndrome}
+		\end{subfigure}
+		\caption{Samples from other syndromes with their attribution maps highlighting the nasal region}
+		\label{fig_nose_region}
+		\end{figure}
 
 \end{document}
