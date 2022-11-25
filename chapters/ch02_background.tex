@@ -45,11 +45,16 @@
     \subsection{Performance}
     GestaltMatcher achieves state-of-the-art performance in the task of syndrome recognition, measured using the top-k accuracy metric. Its authors report the model's performance on two datasets: Face2Gene, a propreitary one, and GMDB, which consists of images obtained from 902 scientific publications. The model's performance on GMDB is presented in the table below, as the same dataset was used for our research work.  
     \section{Introduction to XAI}
-	\enquote{XAI is artificial intelligence (AI) in which humans can understand the decisions or predictions made by the AI}\cite{vilone2021notions}. It also refers to a branch of study which deals with the development of processes and methods to explain decisions of AI systems. The \enquote{interpretability} is often used interchangeably with \enquote{explainability}. However, it is important to note that interpretability has to do with describing the internals of an AI system, in a way that is understandable to humans. In this section, we give an overview of different types of methods developed to visualize internals of neural network models, especially CNNs such as the one used in GestaltMatcher, and explain their predictions.
+	\enquote{XAI is artificial intelligence (AI) in which humans can understand the decisions or predictions made by the AI}\cite{vilone2021notions}. It also refers to a branch of study which deals with the development of processes and methods to explain decisions of AI systems. The term \enquote{interpretability} is often used interchangeably with \enquote{explainability}. However, it is important to note that interpretability has to do with describing the internals of an AI system, in a way that is understandable to humans. In this section, we give an overview of different types of methods developed to visualize internals of neural network models, especially CNNs such as the one used in GestaltMatcher, and explain their predictions.
 	
 	\subsubsection{Methods for Neural Networks} \label{sec_nn_methods}
-	Figure \ref{} depicts the taxonomy of explanation methods for neural network methods as presented in \cite{molnar2019}. 
-	
+	Figure \ref{fig_xai_tree} depicts the taxonomy of explanation methods for neural network methods as presented in \cite{molnar2019}. 
+	  \begin{figure}[ht]
+		\hspace*{1.0cm}      
+		\includegraphics[width=\textwidth, trim=0cm 2cm 0cm 0cm,clip]{chapter2/xai_tree.png}
+		\caption{A categorization of neural network explanation methods}
+		\label{fig_xai_tree}
+	\end{figure}
 	\subsubsection{Feature Visualization}
 	This class of methods focus on visualizing features learned in hidden layers of a CNN. Entities like edges, textures, patterns, parts and objects can be visualized by maximizing activations of convolutional layers. Last layers of neural network model learn features of higher complexity than the earlier ones.  Feature visualization can be achieved through optimization, or by using approaches such as network dissection \cite{bau2017network}, in which highly activated channels of a given layer are associated with human concepts such as color. Although feature visualization seems to be a simple tool for understanding internals of a neural network, often its visualization artifacts are not interpretable. Besides, another challenge lies in choosing the right set of layers and channels for visualization, and summarizing information represented in them.
 

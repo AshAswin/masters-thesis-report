@@ -401,7 +401,117 @@ Similar to other experimental artifacts, the clinician evaluated composite faces
     \end{sidewaysfigure}
     \clearpage
 	\section{Experiment D. Dataset Imbalance - Explanation Quality Analysis}
+	This experiment was conducted to study the impact of dataset imbalance on attribution maps. The following four classifier models, each with different choice and number of target classes were trained for this experiment:
+	\begin{enumerate}
+		\item GC1: CDLS vs healthy 
+		\item GC2: CDLS vs WBS
+		\item GC3: CDLS vs WBS vs mucopolysaccharidoses (MPS) vs HPMRS vs CSS, with class-wise imbalance 
+		\item GC4: CDLS vs WBS vs MPS vs HPMRS vs CSS, with equal number of samples
+	\end{enumerate}
+	Besides, we considered attribution maps of the 139-class GestaltMatcher classifier model (GM) as the baseline for comparison.
 	
+	 Unlike other experiments, analysis of this experiment's artifacts was done without the help of a clinician. 	 Most of the changes observed in the attribution maps of the above listed classifiers, couldn't be interpreted in a meaningful way. Therefore, in this section, a qualitative analysis of some important observations are provided.
+	 	
+	\begin{itemize}
+	
+			
+		\item Figure \ref{fig_cdls_imb} contains attribution maps of a CDLS patient image generated from the set of classifier models considered for this experiment (a-d), and the GM model. It can be observed that the regions highlighted in FullGrad maps remain unchanged in all cases. However, attention regions of GradCAM and HiResCAM maps differ for every model.
+				
+		\item It can be observed that the attention region of GC1, the syndrome vs healthy classifier has a wider region of attention than the GM model. Also, their regions of attention differ from each other. GC1 focused more on the right cheek region while GM focuses on labella (the meeting point of eyebrows), which is characteristic to CDLS. Attention regions of GC2 were observed to be narrower than that of GC1. \enquote {No significant changes were observed between attribution maps GC3 and GC4, the classifiers trained on balanced and imbalanced sets of classes respectively}.
+		
+		\item Attribution maps shown in Figure \ref{fig_gm_wearables} reveal that except GM all other classifier model get affected by the presence of spectacles on the patient's face. The GM model focuses on the characteristic eyebrow region (refer Figure \ref{fig_wearable_gm}).
+		
+		\item Attribution maps of healthy faces produced using GC1 reveal that the model uses same set of features to recognize images of both the classes. This indicates that the neural network model looks for the presence or absence of certain discriminative features in an image, to classify the same. It can be observed from visualizations in Figure \ref{fig_health_syn_exam} that the nasal region was used to recognize both the healthy and syndromic images.
+		\end{itemize}
+	
+		\begin{figure}[H]
+		\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/0n_gm.png}
+			\caption{GC1}
+			\label{fig_cdls_imb_a}
+		\end{subfigure}
+			\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/01_gm.png}
+			\caption{GC2}
+			\label{fig_cdls_imb_b}
+		\end{subfigure}
+			\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/b_gm.png}
+			\caption{GC3}
+			\label{fig_cdls_imb_c}
+		\end{subfigure}
+			\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/i_gm.png}
+			\caption{GC4}
+			\label{fig_cdls_imb_d}
+		\end{subfigure}
+			\begin{subfigure}[t]{1\textwidth}
+			\centering
+			\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/0_gm.png}
+			\caption{GM}
+			\label{fig_cdls_imb_e}
+		\end{subfigure}
+	\caption{Attribution maps of a CDLS patient image generated using different classifier models. Meaningful changes in regions of attention are marked with a black bounding box.}
+	\label{fig_cdls_imb}
+	\end{figure}
+	
+\begin{figure}[H]
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/wearables/0n.png}
+		\caption{GC1}
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/wearables/01.png}
+		\caption{GC2}
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/wearables/i.png}
+		\caption{GC3}
+		
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/wearables/b.png}
+		\caption{GC4}
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/wearables/gm.png}
+		\caption{GM}
+		\label{fig_wearable_gm}
+	\end{subfigure}
+	\caption{Attribution maps depicting the effect of wearables on attention of different classifier models}
+	\label{fig_gm_wearables}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/health_1.png}
+		\caption{An example of correctly classified healthy face}
+		
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/health_2.png}
+		\caption{An example of correctly classified healthy face}
+		
+	\end{subfigure}
+	\begin{subfigure}[t]{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim = 1cm 2.50cm 1cm 2cm, clip]{chapter6/xai_imb/synd_exam.png}
+		\caption{An example of correctly classified CDLS face}
+	\end{subfigure}
+	\caption{Attribution maps of healthy and syndromic facial images}
+	\label{fig_health_syn_exam}
+\end{figure}
 	\section{Summary of Results}
 	
     \section{Inferences}
@@ -432,7 +542,7 @@ Similar to other experimental artifacts, the clinician evaluated composite faces
     	
     	\item{\textbf{3. The possible influence of network architecture and data on explanations:}}
     	
-    	\item{\textbf{4. All explanations need not carry a real-world meaning:}} Each XAI method considered in this work approaches the problem of attribution in its own way. GradCAM converts the problem into \enquote{weakly supervised localization}, and aims to localize the target class in form of an object. This proves helpful when classes represent real-world objects, which have a well defined physical form. In our case, the target categories represent genetic syndromes which are entities characterized by distinct features, but dont exist as individual objects.\\ 
+    	\item{\textbf{4. All explanations do not carry a real-world meaning:}} Each XAI method considered in this work approaches the problem of attribution in its own way. GradCAM converts the problem into \enquote{weakly supervised localization}, and aims to localize the target class in form of an object. This proves helpful when classes represent real-world objects, which have a well defined physical form. In our case, the target categories represent genetic syndromes which are entities characterized by distinct features, but dont exist as individual objects.\\ 
     	HiResCAM, a more faithful approach avoids the gradient-averaging step to reveal all attention regions of a neural network model. It can be inferred from the clinician's evaluation that unfiltered explanations produced by the method was not chosen to highlight the facial features, that are considered important for diagnosis by humans. This is possibly because the GestaltMatcher model focuses on multiple sparse sections of a facial image, whose composition does not correspond to a feature of a given syndrome. The success of FullGrad approach can be attributed to its layer-agnostic nature and ability to consolidate both input and neuronal attributions into a single representation. 
     \end{itemize} 
 	
