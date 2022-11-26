@@ -50,4 +50,18 @@
 	\item XAI methods have the potential to yield novel insights about the data and model with which they are used.
 	\end{itemize}
     \section{Future work}
+    \begin{figure}[H]
+    	\centering     
+    	\includegraphics[scale=0.4]{eye_tracking.png}
+    	\caption{A typical eye tracking setup. Image source: uxbooth\protect\footnotemark}
+    	\label{fig_eye_track}
+    \end{figure}
+	\footnotetext[1]{uxbooth - https://www.uxbooth.com/articles/a-look-into-predictive-eye-tracking-tools/}
+    This section provides future directions of research related to this work:
+    \begin{itemize}
+    	\item  During the course of this research work, we realized the need to associate regions highlighted in attribution maps with those considered important by the clinician evaluating them, in a quantitative way. An eye tracking setup such as the one shown in Figure \ref{fig_eye_track}, could be used to track the evaluator's eye movements, determine his/her regions of attention on the displayed patient's facial image. Gaze maps obtained from eye-tracking, could be compared with attribution maps by computing the overlap between their highlighted regions, interms of metrics like intersection over union (IOU) \footnote[2]{IOU}. The comparison is valid under the assumption that duration of the evaluator's gaze on a particular region is directly proportional to its importance for syndrome recognition. 
+    	\item The GestaltMatcher framework proposes the use of cosine similarity metric to quantitatively compare images of patients from same or different syndromes in the clinical face phenotype space (CFPS). However, cosine similarity such measured, is a scalar value which does not reveal any information about the regions of similarity or differences between a given pair of facial images. Applying attribution methods such as GradCAM, on a siamese network \cite{taigman2014deepface} model trained on pairs of images along with their cosine similarity scores  in CFPS, might reveal the regions of similarity between an inputted pair of images. If successful, such an XAI would aid the scientific community to accelerate its research on rare genetic syndromes and their associated phenotypes.
+    	\item  One of the important findings of this research work is the importance of the nasal region in the recognition of rare genetic conditions. This could be used as an empirical evidence by the research community to search for novel gene-phenotype associations.
+    
+    \end{itemize}
 \end{document}
