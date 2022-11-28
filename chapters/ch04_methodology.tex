@@ -6,7 +6,96 @@
 	\section{Datasets}
 	This research work uses two datasets for conducting experiments. Frontal facial images of patients with rare genetic syndrome are taken from the GestaltMatcher DataBase (GMDB) dataset. The dataset contains 12849 facial images from 7640 patients with 742 different syndromes. Besides patient images, the dataset also contains other details such as patient history. GMDB acts a valuable resource for the research community.\\
 	The UTKFace \cite{zhifei2017cvpr} is used for the dataset imbalance - explanation quality experiment   \ref{sec_data_imb} that requires faces from a healthy cohort. The dataset has over 20,000 face images with labels for age, gender and ethnicity. For the experiment, we handpick 244 samples from the dataset, while ensuring the diversity of the dataset.
-	      
+	    \begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-1.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-2.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-3.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-4.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-5.jpg}
+		\end{subfigure}
+			\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-6.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-7.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-8.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-9.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/gmdb_examples/file-10.jpg}
+		\end{subfigure}
+		\caption{Sample instances from GMDB dataset}
+		\label{fig_gmdb_examples}
+		\end{figure}
+	    \begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-1.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-2.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-3.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/utk_examples/file-4.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-5.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-6.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-7.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{chapter4/utk_examples/file-8.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/utk_examples/file-9.jpg}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{chapter4/utk_examples/file-10.jpg}
+		\end{subfigure}
+		\caption{Sample instances from UTKFace dataset}
+		\label{fig_utk_examples}
+	\end{figure}
     \section{Selection of Methods}\label{sec_method_selection}
     In this section, we analyze the neural network explainability methods dicussed in Chapter 2 based on the following dimensions and identify the ones to be considered for further experimentation and evaluation:
     \begin{itemize}
@@ -18,7 +107,7 @@
     \end{itemize}
 	
     \subsection{More Reasons to Consider Layer Attribution Methods}
-    In addition to the above discussed reasons, it is also observed that layer attribution approaches like GradCAM are widely used to explain neural network models for medical diagnosis \cite{} \cite{} \cite{}. However, the downside of GradCAM is it approaches
+    In addition to the above discussed reasons, it is also observed that layer attribution approaches like GradCAM are widely used to explain neural network models for medical diagnosis \cite{lee2019explainable} \cite{nunnari2021overlap} \cite{hicks2021explaining}. However, the downside of GradCAM is it approaches
     attribution as weakly supervised segmenation problem and \enquote{sometimes higlight locations the model didnot actually use}\cite{draelos2020hirescam}. HiResCAM \cite{draelos2020hirescam}, a recent successor of GradCAM overcomes this issue and produces more faithfulness explanations. Therefore, the method is included in the scope of this work.\\
     GradCAM and HiResCAM are layer-specific and therefore their explanations are limited by the choice of the convolutional layers made. FullGrad \cite{srinivas2019full} overcomes this deficit by considering attributions across all neuronal units of a model and thus becomes a candidate for experimentation. Along with these CAM techniques, occlusion sensitivity mapping is included as a reference explanation method, to better understand the classifier model's regions of attention.
     \begin{figure}[H]
@@ -45,36 +134,38 @@
     This experiment focuses on one of our research objectives, to use XAI methods to generate explanations for individual predictions produced by the GestaltMatcher model. 
     Patient-wise attribution maps help us in knowing GestaltMatcher's attention regions in every patient face from GMDB dataset. In turn, this helps us to study the patterns (if there is any) behind the model's varying regions of interests for different categories of inputs.
     \subsubsection{B. Composite Face Generation}
-    Experiments B and C are conducted with an intent to obtain a characteristic representation of GestaltMatcher's regions of interest in a syndrome(class)-wise manner. Composite face representation of a given class is obtained by applying certain image transformations and averaging patient faces belonging to it (see \ref{} Chapter 5 for the detailed description). Thus generated composite faces are then processed by the XAI integrated GestaltMatcher model to produce its corresponding attribution maps using all three selected methods.
+    Experiments B and C are conducted with an intent to obtain a characteristic representation of GestaltMatcher's regions of interest in a syndrome(class)-wise manner. Composite face representation of a given class is obtained by applying certain image transformations and averaging patient faces belonging to it (refer Section \ref{sec_cface_gen} for a detailed description). Thus generated composite faces are then processed by the XAI integrated GestaltMatcher model to produce its corresponding attribution maps using all three selected methods.
     \subsubsection{C. Syndrome-wise Attribution Maps Generation}
     Although, attribution maps of composite faces are generated with an intent to give a generic representation, they suffer from a couple of drawbacks. The process of applying image transformations to facial images of patients to generate composite faces, may alter the key facial abnormalities and dysmorphic features associated with corresponding genetic syndromes. Besides, there is a possibility of the GestaltMatcher model to misclassify them, raising concerns about the correctness of generated attribution maps. 
     
-    In order to overcome these challenges, we propose and deploy two other techniques to produce syndrome-wise attribution maps: averaging and Singular Value Decomposition (SVD). These techniques are applied to only attribution maps associated with correctly predicted inputs. However, syndrome-wise attribution maps generated using all the three techniques are considered for evaluation, provided the composite face of a given syndrome is correctly predicted.
+    In order to overcome these challenges, we propose and deploy two other techniques to produce syndrome-wise attribution maps: averaging and singular value decomposition (SVD). These techniques are applied to only attribution maps associated with correctly predicted inputs. However, syndrome-wise attribution maps generated using all the three techniques are considered for evaluation, provided the composite face of a given syndrome is correctly predicted.
     \subsubsection{D. Dataset Imbalance - Explanation Quality Analysis} \label{sec_data_imb}
     As discussed in Section \ref{sec_challenges}, GMDB dataset is imbalanced. We hypothesize that the problem could affect the quality of attribution maps generated from the GestaltMatcher model. This experiment verifies the hypothesis.\\
     We train three different classifier models: two trained with balanced sets of classes, and one with an imbalanced set. We observe and analyze the changes in attribution maps produced from these models. Besides this investigation, we study the variations in GestaltMatcher's regions of attention in syndromic and healthy faces. This is realized by analyzing attribution maps produced from a binary classifier, which is trained to differentiate faces of syndromic and healthy individuals. Facial images of healthy people are obtained from the UTKFace dataset.
     \section{Evaluation}\label{sec_evaluation}
     Evaluating XAI methods based on their explanation correctness remains a challenge till date. Yeh \etal \cite{yeh2019fidelity} classifies explanation evaluation measures into two categories: objective or computational measures and subjective measures. Objective measures evaluate explanations based on whether a given XAI method satisfies certain properties or axioms, such as completeness\cite{sundararajan2017axiomatic}. On the other hand, subjective measures focus on aspects such as explanation usefulness, and the evaluation procedure involves humans. This research work uses subjective measures to evaluate the explanation artifacts produced by the chosen set of XAI methods.\\ 
-    In the beginning, this section briefly explains the two predominantly used objective measures to evaluate saliency mapping methods: \enquote{infidelity and sensitivity}\cite{yeh2019fidelity}, to give the reader an idea about what computational metrics typically look for. Subsequently, the rationale behind using subjective measures over objective ones for this work is provided. Finally, the proposed evaluation procedure is described in detail.
+    In the beginning, this section briefly explains the two predominantly used objective measures to evaluate saliency mapping methods: \enquote{infidelity and sensitivity}\cite{yeh2019fidelity}, to give the reader an idea about what is typically measured by computational metrics. Subsequently, the rationale behind using subjective measures over objective ones for this work is provided. Finally, the proposed evaluation procedure is described in detail.
     \subsection{Objective Measures}
     Yeh \etal \cite{yeh2019fidelity} proposed infidelity and sensitivity metrics in their work, to benchmark various saliency mapping methods. These measures are computed based on the changes observed in model explanations, when its inputs are subject to perturbations. 
     \subsubsection{Infidelity}
+    Infidelity computes the expected mean squared difference between an explanation scaled by the magnitude of an input perturbation, and differences between the predictor function of the given model at its input and perturbed input. Intuitively, this refers to the correctness of an XAI method in generating true explanations for model predictions.\\
+    Provided a black-box function $\mathbf{f}$ with an input $\mathbf{x}$, explanation functional $\Phi$, a random variable $\mathbf{I} \in \mathbb{R}^d$ with probability measure $\mu_{\mathbf{I}}$, which denotes meaningful perturbations of interest, the explanation infidelity measure of $\Phi$ is expressed as:
     \begin{equation}
-    	content...
+    	\operatorname{INFD}(\Phi, \mathbf{f}, \mathbf{x})=\mathbb{E}_{\mathbf{I} \sim \mu_{\mathbf{I}}}\left[\left(\mathbf{I}^T \Phi(\mathbf{f}, \mathbf{x})-(\mathbf{f}(\mathbf{x})-\mathbf{f}(\mathbf{x}-\mathbf{I}))\right)^2\right]
     \end{equation}
-    Infidelity computes the expected mean squared difference between an explanation scaled by the magnitude of an input perturbation, and differences between the predictor function of the given model at its input and perturbed input. Intuitively, this refers to the correctness of an XAI method in generating true explanations for model predictions.
     \subsubsection{Sensitivity}
-    \begin{equation}
-    	content...
-    \end{equation}
     Sensitivity can explained as the change in model explanation resulting from a small perturbation in the input.
+      \begin{equation}
+    	\left.\operatorname{SENS}_{\mathrm{MAX}}(\Phi, \mathbf{f}, \mathbf{x}, r)=\max _{\|\mathbf{y}-\mathbf{x}\| \leqslant r} \| \Phi(\mathbf{f}, \mathbf{y})-\Phi(\mathbf{f}, \mathbf{x})\right) \|
+    \end{equation}
+    where $\operatorname{SENS}_{\mathrm{MAX}}$ denotes maximum sensitivity of black-box function $\mathbf{f}$, $\Phi$ an explanation functional, $\mathbf{x}$ a given input and $r$ its respective neighborhood radius.
     
     \subsection{Rationale to Adopt Subjective Evaluation}
     Although, computational measures such as the ones presented offer a quantitative means to benchmark XAI methods, they cannot be used for evaluating them on abstract objectives such as meaningfulness of explanations. Such an evaluation can only be performed in subjective manner, by end users of the AI system.\\
     Mohseni \etal \cite{mohseni2021multidisciplinary} list various possible goals with which XAI methods can be used, and also recommend measures to evaluate them, based on the context of their application. The goals listed in their work are as follows: algorithmic transparency, user trust and reliance, bias mitigation, privacy awareness, model visualization and inspection, model tuning and selection, model interpretability and debugging.\\ 
     The primary goals of this research work can be related to three of the above mentioned: \enquote{algorithmic transparency}, \enquote{user-trust and reliance} and \enquote{model interpretability}. For such cases, authors recommend to evaluate XAI methods by conduct human-subject studies using tools such as Likert-scale questionnaires \cite{likert_scale}. This research work follows the recommendation, and formulates a questionnaire for clinicians (end-users) to evaluate the generated explanations. 
     \subsection{Proposed Evaluation Procedure}
-    The three types of artifacts (patient-wise map, composite face and syndrome-wise map) generated from the above mentioned experiments are meant to be evaluated by clinicians, who are familiar with the syndromes in our scope. This research work formulates evaluation procedures for each artifact. Clinical practitioners were consulted to develop the procedures. The proposed evaluation strategies are realized in the form of a questionnaire, which is presented in \ref{} Chapter 5. 
+    The three types of artifacts (patient-wise map, composite face and syndrome-wise map) generated from the above mentioned experiments are meant to be evaluated by clinicians, who are familiar with the syndromes in our scope. This research work formulates evaluation procedures for each artifact. Clinical practitioners were consulted to develop the procedures. The proposed evaluation strategies are realized in the form of a questionnaire, which is presented in Chapter \ref{ch_implementation}.
     \subsubsection{i. Patient-wise Attribution Maps}
     Steps to evaluate patient-wise maps are presented in Figure \ref{fig_patient_flow} as a flowchart. Besides illustrating the process flow, the chart enumerates possible responses and what can be inferred from them. Scenarios B and C are desirable, as they indicate the usefulness of attribution maps. The final step ranks attribution maps generated by the four chosen methods based on their usefulness.
     

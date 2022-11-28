@@ -17,7 +17,7 @@
 		\begin{tabular}{|l|l|}
 			\hline
 			\textbf{Hyperparameter} & \textbf{Value}                                                         \\ \hline
-			Loss function           & \begin{tabular}[c]{@{}l@{}}weighted \\ cross entropy loss\end{tabular} \\ \hline
+			Loss function           & \begin{tabular}[c]{@{}l@{}}weighted \\ cross entropy loss\footnote[1]{} \end{tabular} \\ \hline
 			Input image size        & 100 x 100                                                              \\ \hline
 			Batch size              & 280                                                                    \\ \hline
 			Epochs                  & 200                                                                    \\ \hline
@@ -27,6 +27,7 @@
 	\caption{GestaltMatcher classifier training details}
 	\label{tab_learning_details}
 	\end{table}
+	The model was evaluated on 360 test images representing 139 frequent category syndromes of the GMDB dataset. It performed with a top-1 accuracy of 25.13\%, top-5 accuracy of 47.23\%, top-10 accuracy of 59.79\% and top-30 accuracy of 77.26\%.  
 
     \section{Explanation Methods - GestaltMatcher Integration}
      \begin{figure}[H]
@@ -75,7 +76,7 @@
     	\caption{An example for patient-wise attribution maps}
     	\label{fig_gm_pipeline}
     \end{figure}
-    \subsection{B. Composite Face Generation}
+    \subsection{B. Composite Face Generation}\label{sec_cface_gen}
     Composite faces are generated with an intent to synthesize a characteristic face for each genetic syndrome class under our scope. Concisely put, they are obtained from aligning and averaging facial images of each category separately. This section provides a detailed description of the process involved.
        \begin{figure}[H]
     	\hspace*{-0.5cm}      
@@ -166,7 +167,27 @@
 	\end{figure}
 	\end{enumerate}    
     \subsection{D. Dataset Imbalance - Explanation Quality Analysis}
-    The aim of this experiment is to investigate the effects of class imbalance in GMDB on contents and quality of generated attribution maps. We trained four classifier models each with different numbers and choices for syndrome classes, using the same network architecture and hyperparameters as that of the 139 class GestaltMatcher classifier model. Table \ref{} summarizes the experimental setup.
+    The aim of this experiment is to investigate the effects of class imbalance in GMDB on contents and quality of generated attribution maps. We trained four classifier models each with different numbers and choices for syndrome classes, using the same network architecture and hyperparameters as that of the 139 class GestaltMatcher classifier model. Following are the sets of classes used for training the four models:
+    \begin{enumerate}
+    	\item GC1: CDLS vs healthy 
+    	\item GC2: CDLS vs WBS
+    	\item GC3: CDLS vs WBS vs mucopolysaccharidoses (MPS) vs HPMRS vs CSS, with class-wise imbalance 
+    	\item GC4: CDLS vs WBS vs MPS vs HPMRS vs CSS, with equal number of samples
+    \end{enumerate} 
+   Table \ref{tab_xai_imb_split} summarizes the experimental setup. Confusion matrices and test performance of the classifier models are provided in Appendix \ref{ch_class_perf}.
+    \begin{table}[H]
+    	\centering
+    	\begin{tabular}{|c|c|c|c|c|c|c|}
+    		\hline
+    		Classifer name/Class ID & CDLS & WBS & MPSS & HPMRS & CSS & Healthy \\ \hline
+    		GC1                     & 196  & -   & -    & -     & -   & 196     \\ \hline
+    		GC2                     & 196  & 182 & -    & -     & -   & -       \\ \hline
+    		GC3                     & 196  & 182 & 85   & 46    & 48  & -       \\ \hline
+    		GC4                     & 46   & 46  & 46   & 46    & 46  & -       \\ \hline
+    	\end{tabular}
+    \caption{Data split for training the four classifier models used for the dataset imbalance experiment}
+    \label{tab_xai_imb_split}
+    \end{table}
    \section{Evaluation Questionnaire}
    We considered six genetic syndrome classes from GMDB for evaluation: Cornelia de Lange syndrome (CDLS), Williams Beuren syndrome (WBS),  Coffin-Siris syndrome (CSS),  Nicolaides-Baraitser syndrome (NBS), Hyperphosphatasia-intellectual disability syndrome or Hyperphosphatasia mental retardation syndrome (HPMRS) and Smith-Lemli-Opitz-Syndrome (SMOS). The syndromes were chosen as they make up majority classes of GMDB. Their respective composite faces, patient-wise attribution maps of correctly predicted test samples and syndrome-wise attribution maps, were compiled into a questionnaire which can be accessed at \url{https://forms.gle/aRru9aeCyZaqpURP9}. The survey was designed to be self-explanatory in nature, containing all necessary information for the evaluator.
    
@@ -198,11 +219,12 @@
    This section contains an introduction followed by a couple of questions. The first question asks the evaluator to identify the syndrome represented by the given composite face. Subsequently, the targeted syndrome name is revealed, and the clinician is asked whether the presented face contains its characteristic phenotypic features.
     
    \subsubsection{Section 3. Patient-wise Attribution Map Evaluation}
+   \raggedbottom
    This part of the questionnaire contains an introduction which briefly explains the objective of our research work to the evaluator, especially regarding the integration of XAI methods to the GestaltMatcher model. Subsequently, it presents the clinician a set of five questions for every patient-wise attribution map in the questionnaire.
    \subsubsection{Section 4. Syndrome-wise Attribution Map Evaluation}
    The final section of the questionnaire contains a background subsection followed by a question asking the evaluator to pick upto four of the twelve presented syndrome-wise maps and rank them.
    
-   Tables \ref{tbl_comp_face}, \ref{tbl_pat_wise}, \ref{tbl_synd_wise} contain the list of questions included in sections 2 till 4 respectively. Each row in the tabular columns represent an individual page in the evaluation questionnaire. The first section and introductory parts of all the other three sections are provided in the appendix\ref{}.
+   Tables \ref{tbl_comp_face}, \ref{tbl_pat_wise}, \ref{tbl_synd_wise} contain the list of questions included in sections 2 till 4 respectively. Each row in the tabular columns represent an individual page in the evaluation questionnaire. Introductory parts of all three sections are provided in Appendix \ref{ch_app_quest}.
   
     \begin{table}[H]
     	\centering

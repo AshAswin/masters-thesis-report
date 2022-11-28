@@ -79,7 +79,7 @@
 	\end{figure}
 
 	\subsubsection{Hyperphosphatasia with Mental Retardation Syndrome}
-	Hyperphosphatasia with intellectual disability or Mental Retardation Syndrome (HPMRS) 
+	Hyperphosphatasia with intellectual disability or mental retardation syndrome (HPMRS)  is characterized by intellectual diability, seizures, facial dysmorphism and other abnormalities. The syndrome occurs in multiple variants. Some of the facial features linked to HPMRS1 include hypertelorism, short philtrum, short nose, broad nasal tip, broad nasal bridge, long palpebral fissures and upslanting palpebral fissures.
 	 \begin{figure}[H]\label{fig_hpmrs}
 	 	\centering
 	 	\begin{subfigure}[t]{0.17\textwidth}
@@ -110,8 +110,8 @@
 	 	\caption[Instances of HPMRS from GMDB dataset]{Instances of HPMRS from GMDB dataset annotated with phenotypic facial features}
 	 \end{figure}
 	 
-	 	\subsubsection{Coffin Siris Syndrome}
-	 	Coffin Siris syndrome (CSS)
+	 \subsubsection{Coffin Siris Syndrome}
+	 	Coffin Siris syndrome (CSS) is a congenital (may be evident at birth) rare genetic condition which affects multiple body systems. This syndrome also occurs in multiple variants. CSS 1 is characterized by the following facial features: short philtrum, thin upper-lip vermilion and thick lower-lip vermilion, small chin, broad nasal tip, down-slanting palpebral fissures, bushy eyebrows, long eyelashes, large mouth, lower lip droop and broad nasal tip.
 	 \begin{figure}[H]\label{fig_cfs}
 	 	\centering
 	 	\begin{subfigure}[t]{0.17\textwidth}
@@ -122,7 +122,7 @@
 	 	\begin{subfigure}[t]{0.17\textwidth}
 	 		\centering
 	 		\includegraphics[width=\textwidth]{chapter6/cfs/6_810.jpg}
-	 		\caption{Thin upper-lip vermilion and thich lower-lip vermilion }
+	 		\caption{Thin upper-lip vermilion and thick lower-lip vermilion }
 	 	\end{subfigure}	
 	 	\begin{subfigure}[t]{0.17\textwidth}
 	 		\centering
@@ -402,16 +402,7 @@ Similar to other experimental artifacts, the clinician evaluated composite faces
     \end{sidewaysfigure}
     \clearpage
 	\section{Experiment D. Dataset Imbalance - Explanation Quality Analysis}
-	This experiment was conducted to study the impact of dataset imbalance on attribution maps. The following four classifier models, each with different choice and number of target classes were trained for this experiment:
-	\begin{enumerate}
-		\item GC1: CDLS vs healthy 
-		\item GC2: CDLS vs WBS
-		\item GC3: CDLS vs WBS vs mucopolysaccharidoses (MPS) vs HPMRS vs CSS, with class-wise imbalance 
-		\item GC4: CDLS vs WBS vs MPS vs HPMRS vs CSS, with equal number of samples
-	\end{enumerate}
-	Besides, we considered attribution maps of the 139-class GestaltMatcher classifier model (GM) as the baseline for comparison.
-	
-	 Unlike other experiments, analysis of this experiment's artifacts was done without the help of a clinician. 	 Most of the changes observed in the attribution maps of the above listed classifiers, couldn't be interpreted in a meaningful way. Therefore, in this section, a qualitative analysis of some important observations are provided.
+	 Unlike other experiments, analysis of this experiment's artifacts was done without the help of a clinician. 	 Most of the changes observed in the attribution maps of the above listed classifiers, couldn't be interpreted in a meaningful way. Therefore, in this section, a qualitative analysis of some important observations are provided. For comparison, we used corresponding attribution maps generated using the 139-class GestaltMatcher classifier model (GM) as the baseline.
 	 	
 	\begin{itemize}
 	
