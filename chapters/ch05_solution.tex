@@ -127,10 +127,22 @@
     The next step warps the consituent facial images in a such a way that their landmark points corresponding to the right corner of the right eye and the left corner of the left eye are shifted to locations $P_{1}$ (0.3 x image width, 0.3 x image height) and $P_{2}$ (0.7 x image width, 0.3 x image height) respectively. In practice this is achieved by computing and applying a similarity transformation matrix using OpenCV library's \enquote{estimateRigidTransform} method.
     
     Similarity transformation \cite{hartley2003multiple} is a specialization of projective transformations, composed of an euclidean transformation (rotation and translation), and an isotropic scaling. Planar similarity transformation has four Degrees Of Freedom (DOFs) can be expressed in the following form:
-    <equation>
-    
+    \begin{equation*}
+    \begin{bmatrix}
+    	sr_{11} & sr_{12} & t_{x} \\
+    	sr_{21} & sr_{22} & t_{y} \\
+    	0 & 0 & 1 
+    \end{bmatrix} 
+\end{equation*}
     Planar affine transformation has two more DOFs offered by non-isotropic scaling and shear. A planar affine transformation can represented in the form of following matrix:
     
+    \begin{equation*}
+    \begin{bmatrix}
+    	a_{11} & a_{12} & t_{x} \\
+    	a_{21} & a_{22} & t_{y} \\
+    	0 & 0 & 1 
+    \end{bmatrix}  
+\end{equation*}
     \subsubsection{d. Facial Alignment using Delaunay Triangulation}
     Facial images are now anchored at points $P_{1}$ and $P_{2}$. However, their regions are yet to be aligned to a common reference. Such a reference is obtained by computing the mean of landmark points of all constituent faces. Subsequently, every facial image is split into regions using Delaunay triangulation technique. \enquote{A Delaunay triangulation of a vertex set is a triangulation of the vertex set with the property that no vertex in the vertex set falls in the interior of the circumcircle (circle that passes through all three vertices) of any triangle in the triangulation}\cite{cmu_triangle:_nodate}. An affine transformation is computed for every triangular region using its vertices, to warp and fit it in the corresponding region formed by the mean landmark points.
     
@@ -144,19 +156,30 @@
     \subsubsection{ii. Average Attribution Maps}
     Average attribution map of a given syndrome is obtained by computing the mean across attribution maps of the correctly predicted instances from the class's test split.
     \subsubsection{iii. Singular Value Decomposition (SVD) of Attribution Maps}
-	Eigen-CAM \cite{muhammad2020eigen} is a layer attribution technique, which computes saliency from the first principal component of feature activations of channels, across the target convolutional layer. For this experiment, we apply the same technique to the attribution maps of correct predicted samples of a given class, for obtaining its characteristic saliency map. The procedure is described in a step-wise manner below:
+	Eigen-CAM \cite{muhammad2020eigen} is a layer attribution technique, which computes saliency from the first principal component of feature activations of channels, across the target convolutional layer. The procedure is similar to that of creating eigen faces \cite{eig_faces}. For this experiment, we apply the same technique to the attribution maps of correct predicted samples of a given class, for obtaining its characteristic saliency map. The procedure is described in a step-wise manner below:
 
 	\begin{enumerate}
-		\item Vectorize the attribution maps of correctly predicted samples of a given syndrome class $c$ into a matrix $A_{c}$.
-		\item Mean subtraction <>
-		\item Factorize $A_{c}$ using SVD to compute principal components of $A_{c}$
-		\begin{equation}
-			A_{c} = U \Sigma {V}^T
-		\end{equation}
-		where $U$ is an $MXM$ orthogonal matrix and V is an $NXN$ orthogonal matrix.  The columns of $U$ and $V$ form the left and right singular vectors of $A_{c}$ respectively. The resultant attribution map $R_{c}$ is obtained by projecting $A$ on the first right eigen vector $V_{1}$:
-		\begin{equation}
-			R_{c} = A_{c}V_{1}
-		\end{equation}
+		\item Vectorize the attribution maps (dimensions $D$=$h\times w$) of correctly predicted samples of a given syndrome class $c$ into a matrix $A_{c}$ of dimensions  $D\times P_{c}$, where P represents number of correctly predicted samples of class $c$.
+		\begin{equation*}
+		A_{c} =	
+		\begin{bmatrix}
+			a_1 & a_2 & .. & .. & a_P 
+		\end{bmatrix} 
+	\end{equation*}
+		\item Perform mean subtraction to obtain $\bar{A_{c}}$.
+		\begin{equation*}
+			\bar{A_{c}} = A - \Psi, \text{ where }  \Psi=\frac{1}{P}\sum^P_{i=1} a_i
+		\end{equation*}
+	
+		
+		\item Factorize $\bar{A_{c}}$ using SVD to compute its principal components.
+		\begin{equation*}
+			\bar{A_{c}} = U \Sigma {V}^T
+		\end{equation*}
+		where $U$ is an $D \times D$ orthogonal matrix and V is an $P_{c} \times P_{c}$ orthogonal matrix.  The columns of $U$ and $V$ form the left and right singular vectors of $\bar{A_{c}}$ respectively. The resultant attribution map $R_{c}$ is obtained by projecting $\bar{A_c}$ on the first right eigen vector $V_{1}$:
+		\begin{equation*}
+			R_{c} = \bar{A_{c}}V_{1}
+		\end{equation*}
 	
 	The procedure is applied individually on attribution maps of all the three GradCAM, HiResCAM and FullGrad methods, for all syndromes under our scope. In the cases of average and SVD of attribution map visualizations, a given syndrome's composite face is used as the background image to project the maps, although there is no relationship between them.
 	\begin{figure}[H]
