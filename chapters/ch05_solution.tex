@@ -2,22 +2,24 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
     \chapter{Implementation}\label{ch_implementation}
-    This chapter describes gives implementation details of the experiments conducted during this thesis work. In the beginning training details of the GestaltMatcher model are provided. Subsequently, we describe the procedure to integrate explanation methods with the model. Furthermore, implementation details of the experiments proposed in the previous chapter are discussed. Finally, the evaluation questionnaire is presented.
+    \noindent
+    This chapter gives implementation details of the experiments conducted for this thesis work. In the beginning,  training details of the GestaltMatcher model are provided. Subsequently, we describe the procedure to integrate explanation methods with the model. Furthermore, implementation details of the experiments proposed in the previous chapter are discussed. Finally, the evaluation questionnaire is presented.
 	\section{GestaltMatcher Model Training}
+	    \noindent
 %	\begin{figure}[ht]
 %		\hspace*{-0.5cm}      
 %		\includegraphics[scale=0.62]{chapter4/gestalt_classifier_pipeline.pdf}
 %		\caption{Illustration of the pipleline to process a patient photo using GestaltMatcher}
 %		\label{fig_cl_pipeline}
 %	\end{figure}
-	The architecture and working of GestaltMatcher was explained in Chapter \ref{chap_background}. This work uses the classifier variant of GestaltMatcher for its experiments (refer Figure \ref{fig_arch_gest_matcher} for architectural details). The neural network is first trained on facial images from the CASIA-WebFace \cite{yi2014learning} dataset. Subsequently, it is trained on 139 frequent-syndrome classes listed by the authors of GestaltMatcher. The training details are presented in Table \ref{tab_learning_details}.
+	The architecture and working of GestaltMatcher were explained in Chapter \ref{chap_background}. This work uses the classifier variant of GestaltMatcher for its experiments (refer to Figure \ref{fig_arch_gest_matcher} for architectural details). The neural network is first trained on facial images from the CASIA-WebFace \cite{yi2014learning} dataset. Subsequently, it is trained on 139 frequent-syndrome classes listed by the authors of GestaltMatcher. The training details are presented in Table \ref{tab_learning_details}.
 	
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{|l|l|}
 			\hline
 			\textbf{Hyperparameter} & \textbf{Value}                                                         \\ \hline
-			Loss function           & \begin{tabular}[c]{@{}l@{}}weighted \\ cross entropy loss\footnote[1]{} \end{tabular} \\ \hline
+			Loss function           & \begin{tabular}[c]{@{}l@{}}cross entropy loss\\weighted by inverse\\of class frequencies\end{tabular} \\ \hline
 			Input image size        & 100 x 100                                                              \\ \hline
 			Batch size              & 280                                                                    \\ \hline
 			Epochs                  & 200                                                                    \\ \hline
@@ -27,24 +29,25 @@
 	\caption{GestaltMatcher classifier training details}
 	\label{tab_learning_details}
 	\end{table}
-	The model was evaluated on 360 test images representing 139 frequent category syndromes of the GMDB dataset. It performed with a top-1 accuracy of 25.13\%, top-5 accuracy of 47.23\%, top-10 accuracy of 59.79\% and top-30 accuracy of 77.26\%.  
+	The model was evaluated on 360 test images representing 139 frequent category syndromes of the GMDB dataset. It performed with a top-1 accuracy of 25.13\%, top-5 accuracy of 47.23\%, top-10 accuracy of 59.79\%, and top-30 accuracy of 77.26\%.  
 
     \section{Explanation Methods - GestaltMatcher Integration}
+        \noindent
      \begin{figure}[H]
     	\hspace*{0.5cm}      
     	\includegraphics[scale=0.45]{chapter5/xai_gestalt_matcher_intergration.png}
     	\caption{An illustration of attribution map computation from the GestaltMatcher model}
     	\label{fig_gm_pipeline}
     \end{figure}
-	The Class Activation Mapping (CAM) methods used for this work typically generate class-specific attribution maps, by evaluating contributions of neurons in a given convolutional layer to the model output. Therefore, the choice of target convolutional layer plays a vital role. Selvaraju \etal \cite{selvaraju2017grad} recommend to use the last convolutional layers, as they contain more high-level semantic and spatial information, when compared to earlier layers, which have smaller receptive fields. The same is reinforced by Muhammad \etal \cite{muhammad2020eigen}. We validated this recommendation by computing and comparing attribution maps generated from all ten convolutional layers, using both GradCAM and HiResCAM techniques. FullGrad was excluded from this analysis, as the method is layer-agnostic in nature.
+	The CAM methods used for this work typically generate class-specific attribution maps by evaluating the contributions of neurons in a given convolutional layer to the model output. Therefore, the choice of target convolutional layer plays a vital role. Selvaraju \etal \cite{selvaraju2017grad} recommended using the last convolutional layers, as they contain more high-level semantic and spatial information when compared to earlier layers, which have smaller receptive fields. The same is reinforced by Muhammad \etal \cite{muhammad2020eigen}. We validated this recommendation by computing and comparing attribution maps generated from all ten convolutional layers, using both GradCAM and HiResCAM techniques. FullGrad was excluded from this analysis, as the method is layer-agnostic in nature.
 
-	Based on the recommendation and our observations, we chose layer 14 (refer conv\_9 in Figure \ref{fig_layer_visual}), the last convolutional layer to compute attribution maps.\\
+	Based on the recommendation and our observations, we chose layer 14 (refer conv\_9 in Figure \ref{fig_layer_visual}), the last convolutional layer, to compute attribution maps.\\
 	\subsubsection{CustomGradCAM}
-	Apart from the last convolution layer, we also observed that applying GradCAM to layers 10.a and 11.a produced visualizations in which certain key features of human face are highlighted (refer conv\_6 and conv\_7 in Figure \ref{fig_layer_visual}). Therefore, in order to include the layers in our scope, we averaged their attribution maps along with the ones produced by layer 14. The resulting map is presented under the name of \enquote{CustomGradCAM}. We used the Application Programming Interfaces (APIs) offered by PyTorch \cite{paszke2019pytorch}, Captum \cite{kokhlikyan2020captum} and an open-source library \cite{jacobgilpytorchcam} to integrate the explanation methods to the GestaltMatcher classifier model.
+	Apart from the last convolution layer, we also observed applying GradCAM to layers 10. a and 11. a produced visualizations in which certain key features of a human face are highlighted (refer conv\_6 and conv\_7 in Figure \ref{fig_layer_visual}). Therefore, in order to include the layers in our scope, we averaged their attribution maps along with the ones produced by layer 14. The resulting map is presented under the name of \enquote{CustomGradCAM}. We used the application programming interfaces (APIs) offered by PyTorch \cite{paszke2019pytorch}, Captum \cite{kokhlikyan2020captum}, and an open-source library \cite{jacobgilpytorchcam} to integrate the explanation methods to the GestaltMatcher classifier model.
 	\begin{figure}[H]
 		\hspace*{1.0cm}      
 		\includegraphics[scale=0.4]{chapter5/gestalt_matcher_arch.png}
-		\caption{Architecture of GestaltMatcher classifier. The convolution layer 14 used to generate attribution maps using GradCAM and HiResCAM methods is highlighted using a blue box. Layers (10.a, 11.a and 14) that are used by the CustomGradCAM method are highlighted using cyan boxes. }
+		\caption[Architecture of GestaltMatcher classifier]{Architecture of GestaltMatcher classifier. The convolution layer 14 used to generate attribution maps using GradCAM and HiResCAM methods is highlighted using a blue box. Layers (10.a, 11.a and 14) that are used by the CustomGradCAM method are highlighted using cyan boxes. }
 		\label{fig_arch_gest_matcher}
 	\end{figure}
 	\begin{sidewaysfigure}
@@ -57,19 +60,23 @@
 	\label{fig_layer_visual}
 \end{sidewaysfigure}
 	\subsection{Visualization Details}
-	 Captum's visualizer tool was used to generate color coded attribution maps. We post-processed attribution maps to remove noise and visual artifacts. This section provides details on visualization parameters and the post-processing procedure.
+	 \noindent
+	 Captum's visualizer tool was used to generate color-coded attribution maps. We post-processed attribution maps to remove noise and visual artifacts. This section provides details on visualization parameters and the post-processing procedure.
 	\subsubsection{Interpolation}
-	The attribution maps generated by layer-specific methods such as GradCAM and HiResCAM are shaped identical to the feature maps outputted by the target layers. For example, layer 14 of the gestaltmatcher model spits out 320 7x7 (height x width) feature maps, and any attribution map generated from the layer is of dimensions 7x7 (height x width). The bilinear interpolation technique \cite{bovik2009essential} was used to rescale attribution maps to the input image size of 100x100 (height x width), so that the map could be overlaid on the input image.
+	The attribution maps generated by layer-specific methods such as GradCAM and HiResCAM are shaped identically to the feature maps outputted by the target layers. For example, layer 14 of the Gestaltmatcher model spits out 320 7x7 (height x width) feature maps, and any attribution map generated from the layer is of dimensions 7x7 (height x width). The bilinear interpolation technique \cite{bovik2009essential} was used to rescale attribution maps to the input image size of 100x100 (height x width) so that the map could be overlaid on the input image.
 	\subsubsection{Attribution Sign and Representation}
-	We considered only positive attribution values for visualization and used the \enquote{jet} colormap scheme offered by Captum's \cite{kokhlikyan2020captum} visualization tool.
+	We considered only positive attribution values for visualization and used the \enquote{jet} colormap scheme offered by Captum's visualization tool.
 	\subsubsection{Smoothing Attribution Maps}
-	Test Time Augmentation (TTA) is a commonly used technique to boost the performance of image classification models \cite{simonyan2014very}. During the inference process for a given input image, instead of passing the actual sample, its augmented counterparts are fed to obtain predictions from the model. Thus obtained predictions are averaged to obtain the final output. Augmented copies are obtained by applying transformations such as rotations and flips to the original input image.\\
-	In our work, we used TTA to enhance the quality of generated attribution maps. Augmented copies of every test input image were obtained by individually applying horizontal flipping and multiplications (with factors of 0.9, 1 and 1.1) operations. Attribution maps were generated for each augmented copy, and finally averaged to obtain the smoothened map. Attribution maps produced from HiResCAM were exempted from TTA based on the guidelines provided by Jacob Gildendblat \cite{jacobgilpytorchcam}.
+	Test time augmentation (TTA) is a commonly used technique to boost the performance of image classification models \cite{simonyan2014very}. During the inference process for a given input image, instead of passing the actual sample, its augmented counterparts are fed to obtain predictions from the model. Thus obtained predictions are averaged to obtain the final output. Augmented copies are obtained by applying transformations such as rotations and flips to the original input image.
+	
+	In our work, we used TTA to enhance the quality of generated attribution maps. Augmented copies of every test input image were obtained by individually applying horizontal flipping and multiplications (with factors of 0.9, 1, and 1.1) operations. Attribution maps were generated for each augmented copy and finally averaged to obtain the smoothened map. Attribution maps produced from HiResCAM were exempted from TTA based on the guidelines provided by Jacob Gildendblat \cite{jacobgilpytorchcam}.
 	
     \section{Experiments}
+        \noindent
     Implementation details of the conducted set of experiments are presented in this section.
     \subsection{A. Patient-wise Attribution Map Generation}
-    Patient-wise attribution maps are generated by applying the chosen set of methods to individual patient images. The attributions are computed with respect to the logit scores of the samples' ground truth classes. This is because the attribution \enquote{methods work only when the classification result is correct} \cite{muhammad2020eigen}. However, an experiment was also conducted to observe the differences between explanations of misclassified samples, obtained by computing attributions with respect to their ground truth and predicted labels. Its results are discussed in the next chapter.
+        \noindent
+    Patient-wise attribution maps are generated by applying the chosen set of methods to individual patient images. The attributions are computed with respect to the logit scores of the samples' ground truth classes. This is because the attribution \enquote{methods work only when the classification result is correct} \cite{muhammad2020eigen}.
     \begin{figure}[H]
     	\hspace*{0cm}      
     	\includegraphics[scale=0.55,trim = 1cm 2.50cm 1cm 2.50cm, clip]{chapter5/example_attribution.pdf}
@@ -77,7 +84,8 @@
     	\label{fig_gm_pipeline}
     \end{figure}
     \subsection{B. Composite Face Generation}\label{sec_cface_gen}
-    Composite faces are generated with an intent to synthesize a characteristic face for each genetic syndrome class under our scope. Concisely put, they are obtained from aligning and averaging facial images of each category separately. This section provides a detailed description of the process involved.
+        \noindent
+    Composite faces are generated with the intent to synthesize a characteristic face for each genetic syndrome class under our scope. Concisely put, they are obtained from aligning and averaging facial images of each category separately. This section provides a detailed description of the process involved.
        \begin{figure}[H]
     	\hspace*{-0.5cm}      
     	\includegraphics[scale=0.66]{chapter5/composite_face_pipeline.pdf}
@@ -86,7 +94,7 @@
     \end{figure}
     
     \subsubsection{a. Selection of Images}
-    The first step involved in generating composite faces is to select the right consituent images. A considerable number of images in GestaltMatcherDataBase (GMDB) are characterized by poor visual quality and/or presence of artifacts. A few such as the ones shown in Figure \ref{fig_gmdb_poorq} also contain objects like nasal catheter tubes, spectacles, and black strips which were introduced to conceal patient identities. Therefore, we hand picked images from each of 139 syndrome classes to remove the unsuitable candidates for generating composite faces.
+    The first step involved in generating composite faces is to select the right constituent images. A considerable number of images in GMDB dataset are characterized by poor visual quality and/or the presence of artifacts. A few, such as the ones shown in Figure \ref{fig_gmdb_poorq}, also contain objects like nasal catheter tubes, spectacles, and black strips, which were introduced to conceal patient identities. Therefore, we hand-picked images from each of the 139 syndrome classes to remove the unsuitable candidates for generating composite faces.
     
        \begin{figure}[H]
     	   	\centering
@@ -114,19 +122,19 @@
     	   	\label{fig_gmdb_poorq}
     	   \end{figure}
     \subsubsection{b. Facial Landmark Regression}
-    Landmark points act as anchors to align the constituent images of composite faces. 68 landmark points are calculated for each input facial image using the dlib \footnote{dlib library - \url{http://dlib.net/}.}library's face detector functionality. Internally, dlib uses a CNN based max-margin object detector to perform the task.
+    Landmark points act as anchors to align the constituent images of composite faces. Sixty-eight landmark points are calculated for each input facial image using the dlib \footnote{dlib library - \url{http://dlib.net/}.}library's face detector functionality. Internally, dlib uses a CNN-based max-margin object detector to perform the task.
         \begin{figure}[H]
         \centering
     	\hspace*{0cm}      
     	\includegraphics[scale=0.20]{chapter5/facial_landmarks.jpg}
-    	\caption{An illustration showing positions of facial landmark points considered by dlib face detector. Image source: Pyimagesearch \protect\footnotemark.}
+    	\caption[An illustration showing positions of facial landmark points considered by dlib face detector]{An illustration showing positions of facial landmark points considered by dlib face detector. Image source: Pyimagesearch \protect\footnotemark.}
     	\label{fig_gm_pipeline}
     \end{figure}
 	\footnotetext{Pyimagesearch - \url{https://pyimagesearch.com/2017/04/03/facial-landmarks-dlib-opencv-python/}}
     \subsubsection{c. Coordinate Transformation}
-    The next step warps the consituent facial images in a such a way that their landmark points corresponding to the right corner of the right eye and the left corner of the left eye are shifted to locations $P_{1}$ (0.3 x image width, 0.3 x image height) and $P_{2}$ (0.7 x image width, 0.3 x image height) respectively. In practice this is achieved by computing and applying a similarity transformation matrix using OpenCV library's \enquote{estimateRigidTransform} method.
+    The next step warps the constituent facial images in such a way that their landmark points corresponding to the right corner of the right eye and the left corner of the left eye is shifted to locations $P_{1}$ (0.3 x image width, 0.3 x image height) and $P_{2}$ (0.7 x image width, 0.3 x image height) respectively. In practice, this is achieved by computing and applying a similarity transformation matrix using OpenCV library's \enquote{estimateRigidTransform} method.
     
-    Similarity transformation \cite{hartley2003multiple} is a specialization of projective transformations, composed of an euclidean transformation (rotation and translation), and an isotropic scaling. Planar similarity transformation has four Degrees Of Freedom (DOFs) can be expressed in the following form:
+    Similarity transformation \cite{hartley2003multiple} is a specialization of projective transformations composed of a euclidean transformation (rotation and translation) and an isotropic scaling. Planar similarity transformation has four degrees of freedom (DOFs) can be expressed in the following form:
     \begin{equation*}
     \begin{bmatrix}
     	sr_{11} & sr_{12} & t_{x} \\
@@ -134,7 +142,7 @@
     	0 & 0 & 1 
     \end{bmatrix} 
 \end{equation*}
-    Planar affine transformation has two more DOFs offered by non-isotropic scaling and shear. A planar affine transformation can represented in the form of following matrix:
+   The planar affine transformation has two more DOFs offered by non-isotropic scaling and shear. A planar affine transformation can be represented in the form of the following matrix:
     
     \begin{equation*}
     \begin{bmatrix}
@@ -144,22 +152,23 @@
     \end{bmatrix}  
 \end{equation*}
     \subsubsection{d. Facial Alignment using Delaunay Triangulation}
-    Facial images are now anchored at points $P_{1}$ and $P_{2}$. However, their regions are yet to be aligned to a common reference. Such a reference is obtained by computing the mean of landmark points of all constituent faces. Subsequently, every facial image is split into regions using Delaunay triangulation technique. \enquote{A Delaunay triangulation of a vertex set is a triangulation of the vertex set with the property that no vertex in the vertex set falls in the interior of the circumcircle (circle that passes through all three vertices) of any triangle in the triangulation}\cite{cmu_triangle:_nodate}. An affine transformation is computed for every triangular region using its vertices, to warp and fit it in the corresponding region formed by the mean landmark points.
+    Facial images are now anchored at points $P_{1}$ and $P_{2}$. However, their regions are yet to be aligned to a common reference. Such a reference is obtained by computing the mean of landmark points of all constituent faces. Subsequently, every facial image is split into regions using the Delaunay triangulation technique. \enquote{A Delaunay triangulation of a vertex set is a triangulation of the vertex set with the property that no vertex in the vertex set falls in the interior of the circumcircle (circle that passes through all three vertices) of any triangle in the triangulation}\cite{cmu_triangle:_nodate}. An affine transformation is computed for every triangular region using its vertices to warp and fit it in the corresponding region formed by the mean landmark points.
     
     \subsubsection{e. Averaging}
     The aligned sets of images are averaged to form their corresponding composite faces.
     
     \subsection{C. Syndrome-wise Attribution Map Generation}
-    Syndrome-wise attribution maps are generated using three different methods and their implementation details are discussed below.
+        \noindent
+    Syndrome-wise attribution maps are generated using three different methods, and their implementation details are discussed below.
     \subsubsection{i. Attribution Maps of Composite Faces}
-    The first type of syndrome-wise maps are obtained by treating composite faces as individual patient faces and applying the patient-wise attribution map generation procedure.
+    The first type of syndrome-wise maps is obtained by treating composite faces as individual patient faces and applying the patient-wise attribution map generation procedure.
     \subsubsection{ii. Average Attribution Maps}
-    Average attribution map of a given syndrome is obtained by computing the mean across attribution maps of the correctly predicted instances from the class's test split.
+    The average attribution map of a given syndrome is obtained by computing the mean across attribution maps of the correctly predicted instances from the class's test split.
     \subsubsection{iii. Singular Value Decomposition (SVD) of Attribution Maps}
-	Eigen-CAM \cite{muhammad2020eigen} is a layer attribution technique, which computes saliency from the first principal component of feature activations of channels, across the target convolutional layer. The procedure is similar to that of creating eigen faces \cite{eig_faces}. For this experiment, we apply the same technique to the attribution maps of correct predicted samples of a given class, for obtaining its characteristic saliency map. The procedure is described in a step-wise manner below:
+	Eigen-CAM \cite{muhammad2020eigen} is a layer attribution technique which computes saliency from the first principal component of feature activations of channels across the target convolutional layer. The procedure is similar to that of creating \enquote{eigen faces}\cite{eig_faces}. For this experiment, we apply the same technique to the attribution maps of correct predicted samples of a given class for obtaining its characteristic saliency map. The procedure is described in a step-wise manner below:
 
 	\begin{enumerate}
-		\item Vectorize the attribution maps (dimensions $D$=$h\times w$) of correctly predicted samples of a given syndrome class $c$ into a matrix $A_{c}$ of dimensions  $D\times P_{c}$, where P represents number of correctly predicted samples of class $c$.
+		\item Vectorize the attribution maps (dimensions $D$=$h\times w$) of correctly predicted samples of a given syndrome class $c$ into a matrix $A_{c}$ of dimensions  $D\times P_{c}$, where P represents the number of correctly predicted samples of class $c$.
 		\begin{equation*}
 		A_{c} =	
 		\begin{bmatrix}
@@ -181,7 +190,7 @@
 			R_{c} = \bar{A_{c}}V_{1}
 		\end{equation*}
 	
-	The procedure is applied individually on attribution maps of all the three GradCAM, HiResCAM and FullGrad methods, for all syndromes under our scope. In the cases of average and SVD of attribution map visualizations, a given syndrome's composite face is used as the background image to project the maps, although there is no relationship between them.
+	The procedure is applied individually on attribution maps of all the three GradCAM, HiResCAM, and FullGrad methods for all syndromes under our scope. In the cases of average and SVD of attribution map visualizations, a given syndrome's composite face is used as the background image to project the maps. However, there is no relationship between them.
 	\begin{figure}[H]
 		\hspace*{0cm}      
 		\includegraphics[scale=0.43]{chapter5/example_syndrome_wise_map.pdf}
@@ -190,7 +199,8 @@
 	\end{figure}
 	\end{enumerate}    
     \subsection{D. Dataset Imbalance - Explanation Quality Analysis}
-    The aim of this experiment is to investigate the effects of class imbalance in GMDB on contents and quality of generated attribution maps. We trained four classifier models each with different numbers and choices for syndrome classes, using the same network architecture and hyperparameters as that of the 139 class GestaltMatcher classifier model. Following are the sets of classes used for training the four models:
+        \noindent
+    This experiment aims to investigate the effects of class imbalance in GMDB on the contents and quality of generated attribution maps. We trained four classifier models, each with different numbers and choices for syndrome classes, using the same network architecture and hyperparameters as the 139 class GestaltMatcher classifier model. Following are the sets of classes used for training the four models:
     \begin{enumerate}
     	\item GC1: CDLS vs healthy 
     	\item GC2: CDLS vs WBS
@@ -202,7 +212,7 @@
     	\centering
     	\begin{tabular}{|c|c|c|c|c|c|c|}
     		\hline
-    		Classifer name/Class ID & CDLS & WBS & MPSS & HPMRS & CSS & Healthy \\ \hline
+    		Classifer name/Class ID & CDLS & WBS & MPSS & HPMRS & CSS & healthy \\ \hline
     		GC1                     & 196  & -   & -    & -     & -   & 196     \\ \hline
     		GC2                     & 196  & 182 & -    & -     & -   & -       \\ \hline
     		GC3                     & 196  & 182 & 85   & 46    & 48  & -       \\ \hline
@@ -212,7 +222,8 @@
     \label{tab_xai_imb_split}
     \end{table}
    \section{Evaluation Questionnaire}
-   We considered six genetic syndrome classes from GMDB for evaluation: Cornelia de Lange syndrome (CDLS), Williams Beuren syndrome (WBS),  Coffin-Siris syndrome (CSS),  Nicolaides-Baraitser syndrome (NBS), Hyperphosphatasia-intellectual disability syndrome or Hyperphosphatasia mental retardation syndrome (HPMRS) and Smith-Lemli-Opitz-Syndrome (SMOS). The syndromes were chosen as they make up majority classes of GMDB. Their respective composite faces, patient-wise attribution maps of correctly predicted test samples and syndrome-wise attribution maps, were compiled into a questionnaire which can be accessed at \url{https://forms.gle/aRru9aeCyZaqpURP9}. The survey was designed to be self-explanatory in nature, containing all necessary information for the evaluator.
+       \noindent
+   We considered six genetic syndrome classes from GMDB for evaluation: Cornelia de Lange syndrome (CDLS), Williams Beuren syndrome (WBS),  Coffin-Siris syndrome (CSS),  Nicolaides-Baraitser syndrome (NBS), Hyperphosphatasia-intellectual disability syndrome or Hyperphosphatasia mental retardation syndrome (HPMRS) and Smith-Lemli-Opitz-Syndrome (SMOS). The syndromes were chosen as they make up the majority classes of GMDB. Their respective composite faces, patient-wise attribution maps of correctly predicted test samples, and syndrome-wise attribution maps were compiled into a questionnaire which can be accessed at \url{https://forms.gle/aRru9aeCyZaqpURP9}. The survey was designed to be self-explanatory in nature, containing the all necessary information for the evaluator.
    
    Following is an outline of the questionnaire:
    \begin{itemize}
@@ -235,7 +246,7 @@
    \end{itemize}
 
    \subsubsection{Section 1. Professional Details and Introduction}
-   The first section asks the evaluator (clinician) for his professional details, and gives a brief introduction to the questionnaire. Details including his professional experience, specialization and his familiarity with the syndromes presented for evaluation are collected. 
+   The first section asks the evaluator (clinician) for his professional details and gives a brief introduction to the questionnaire. Details, including his professional experience, specialization, and his familiarity with the syndromes presented for evaluation, are collected. 
     
     
    \subsubsection{Section 2. Composite Face Evaluation}
@@ -243,11 +254,11 @@
     
    \subsubsection{Section 3. Patient-wise Attribution Map Evaluation}
    \raggedbottom
-   This part of the questionnaire contains an introduction which briefly explains the objective of our research work to the evaluator, especially regarding the integration of XAI methods to the GestaltMatcher model. Subsequently, it presents the clinician a set of five questions for every patient-wise attribution map in the questionnaire.
+   This part of the questionnaire contains an introduction that briefly explains the objective of our research work to the evaluator, especially regarding the integration of XAI methods into the GestaltMatcher model. Subsequently, it presents the clinician with a set of five questions for every patient-wise attribution map in the questionnaire.
    \subsubsection{Section 4. Syndrome-wise Attribution Map Evaluation}
-   The final section of the questionnaire contains a background subsection followed by a question asking the evaluator to pick upto four of the twelve presented syndrome-wise maps and rank them.
+   The final section of the questionnaire contains a background subsection followed by a question asking the evaluator to pick upto three of the twelve presented syndrome-wise maps and rank them.
    
-   Tables \ref{tbl_comp_face}, \ref{tbl_pat_wise}, \ref{tbl_synd_wise} contain the list of questions included in sections 2 till 4 respectively. Each row in the tabular columns represent an individual page in the evaluation questionnaire. Introductory parts of all three sections are provided in Appendix \ref{ch_app_quest}.
+   Tables \ref{tbl_comp_face}, \ref{tbl_pat_wise}, \ref{tbl_synd_wise} contain the list of questions included in sections 2 till 4, respectively. Each row in the tabular columns represent an individual page in the evaluation questionnaire. Introductory parts of all three sections are provided in Appendix \ref{ch_app_quest}.
   
     \begin{table}[H]
     	\centering
@@ -495,9 +506,9 @@
 		&
 
 		
-		3. Which of the  attribution maps shown below most highlight the key characteristic facial phenotypic features of Cornelia de Lange syndrome? (Select top four. If none of them represent select None in all rows))
+		3. Which of the  attribution maps shown below most highlight the key characteristic facial phenotypic features of Cornelia de Lange syndrome? (Select top three. If none of them represent select None in all rows))
 		
-		<Top four from A till L to be selected>		
+		<Top three from A till L to be selected>		
 		
 		\vspace{.25cm}
 		\\ \hline

@@ -2,11 +2,26 @@
 \documentclass[../report.tex]{subfiles}
 \begin{document}
     \begin{abstract}
-        GestaltMatcher is a state-of-the-art convolutional neural network (CNN) based tool developed to identify rare genetic syndromes from frontal facial images of people. It surpasses the ability of clinicians to recognize images of certain rare genetic conditions. The black-box nature of the CNN model limits the scientific community from finding the facial regions it focuses to make predictions. Such knowledge may help the community to improve their understanding of facial feature - genetic syndrome associations. Besides, it makes GestaltMatcher more transparent and dependable for clinical practitioners, who use the tool to assist their diagnoses.\\
-        This research work attempts to determine the CNN's attention regions using feature attribution methods from the realm of explainable artificial intelligence (XAI). A literature review is conducted to identify SOTA attribution methods, suitable for the model and data at hand. Subsequently, the identified methods are tweaked and applied to the CNN model, to generate explanations for its predictions, in form of attribution maps. Explanation artifacts are generated for instances from 139 syndrome classes in GestaltMatcher database (GMDB) dataset, a curation of facial images of patients with rare genetic conditions. In addition, characteristic representations for facial images and attribution maps of each category are obtained, in forms of a composite face and syndrome-wise attribution maps, respectively. Finally, the set of three experimental artifacts representing Cornelia de Lange syndrome (CDLS), Williams Beuren syndrome (WBS) and Hyperphosphatasia with mental retardation syndrome (HPMRS) are evaluated by an experienced clinical geneticist.\\
-        Evaluation results show that the regions highlighted in attribution maps generated using the full-gradient representation (FullGrad) method, closely matched the clinician's attention regions in six out of nine samples from CDLS and HPMRS classes. In addition, the clinician confirmed presence of atleast a characteristic feature of CDLS, WBS and HPMRS in their respective characteristic representations. Analyzing attribution maps of other classes reveal that the GestaltMatcher model predominantly considers features of the nasal region to recognize syndromes.   
+    	\noindent
+        GestaltMatcher is a state-of-the-art convolutional neural network (CNN) based tool developed to
+        identify rare genetic syndromes from frontal facial images of people. It surpasses the ability of clinicians to recognize images of certain rare genetic conditions. However, the black-box nature of the CNN model limits the scientific community from finding the facial regions it focuses on to make predictions. Such knowledge may help the community to improve their understanding of facial feature - genetic syndrome associations. Besides, it makes GestaltMatcher more transparent and dependable for clinical practitioners who use the tool to assist with their diagnoses.
         
+        This research work attempts to determine the CNN’s attention regions using feature attribution methods
+        from the realm of explainable artificial intelligence (XAI). A literature review is conducted to identify 
+        state-of-the-art attribution methods suitable for the model and data at hand. Subsequently, the identified
+        methods are tweaked and applied to the CNN model to generate explanations for its predictions in the form of attribution maps. Explanation artifacts are generated for instances from 139 syndrome classes
+        in the GestaltMatcher database dataset, a curation of facial images of patients with rare genetic
+        conditions. In addition, characteristic representations for facial images and attribution maps of each
+        category are obtained, in the forms of the composite face and syndrome-wise attribution maps, respectively.
+        Finally, the set of three experimental artifacts representing Cornelia de Lange syndrome (CDLS), Williams
+        Beuren syndrome (WBS) and Hyperphosphatasia with mental retardation syndrome (HPMRS) are
+        evaluated by an experienced clinical geneticist.
         
-         
+        Evaluation results show that the regions highlighted in attribution maps generated using the full-gradient
+        representation (FullGrad) method closely matched the clinician’s attention regions in six out of nine
+        samples from CDLS and HPMRS classes. In addition, the clinician confirmed the presence of at least a
+        facial feature of CDLS, WBS, and HPMRS in their respective characteristic representations.
+        Analyzing attribution maps of other classes reveals that the GestaltMatcher model predominantly considers
+        features of the nasal region to recognize syndromes.    
     \end{abstract}
 \end{document}

@@ -157,13 +157,6 @@
   Volume                   = {2012}
 }
 
-@Article{li2017convolutional,
-  author  = {Li, Christy and Konomis, Dimitris and Neubig, Graham and Xie, Pengtao and Cheng, Carol and Xing, Eric},
-  journal = {arXiv preprint arXiv:1712.02768},
-  title   = {Convolutional neural networks for medical diagnosis from admission notes},
-  year    = {2017},
-}
-
 @Article{Schwendicke2019,
   author   = {Falk Schwendicke and Tatiana Golla and Martin Dreher and Joachim Krois},
   journal  = {Journal of Dentistry},
@@ -322,15 +315,6 @@ CNNs may be used in diagnostic-assistance systems, thereby assisting dentists in
 	year={2020}
 }
 
-@Inproceedings{tcav,
-	title={Interpretability beyond feature attribution: Quantitative testing with concept activation vectors (tcav)},
-	author={Kim, Been and Wattenberg, Martin and Gilmer, Justin and Cai, Carrie and Wexler, James and Viegas, Fernanda and others},
-	booktitle={International conference on machine learning},
-	pages={2668--2677},
-	year={2018},
-	organization={PMLR}
-}
-
 @Article{shap,
 	title={A unified approach to interpreting model predictions},
 	author={Lundberg, Scott M and Lee, Su-In},
@@ -361,14 +345,6 @@ CNNs may be used in diagnostic-assistance systems, thereby assisting dentists in
 	author={Springenberg, Jost Tobias and Dosovitskiy, Alexey and Brox, Thomas and Riedmiller, Martin},
 	journal={arXiv preprint arXiv:1412.6806},
 	year={2014}
-}
-
-@Inproceedings{cam,
-	title={Learning deep features for discriminative localization},
-	author={Zhou, Bolei and Khosla, Aditya and Lapedriza, Agata and Oliva, Aude and Torralba, Antonio},
-	booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
-	pages={2921--2929},
-	year={2016}
 }
 
 @Article{ferry_facial_gestalt,
@@ -502,4 +478,225 @@ CNNs may be used in diagnostic-assistance systems, thereby assisting dentists in
 
 @Article{li2017convolutional,
   author  = {Li, Christy and Konomis, Dimitris and Neubig, Graham and Xie, Pengtao and Cheng, Carol and Xing, Eric},
-  journal = {arXiv
+  journal = {arXiv preprint arXiv:1712.02768},
+  title   = {Convolutional neural networks for medical diagnosis from admission notes},
+  year    = {2017},
+}
+
+@Article{9233366,
+  author  = {Tjoa, Erico and Guan, Cuntai},
+  journal = {IEEE Transactions on Neural Networks and Learning Systems},
+  title   = {A Survey on Explainable Artificial Intelligence (XAI): Toward Medical XAI},
+  year    = {2021},
+  number  = {11},
+  pages   = {4793-4813},
+  volume  = {32},
+  doi     = {10.1109/TNNLS.2020.3027314},
+}
+
+@Article{miglani2020investigating,
+  author  = {Miglani, Vivek and Kokhlikyan, Narine and Alsallakh, Bilal and Martin, Miguel and Reblitz-Richardson, Orion},
+  journal = {arXiv preprint arXiv:2010.12697},
+  title   = {Investigating saturation effects in integrated gradients},
+  year    = {2020},
+}
+
+@Article{sheu2020illuminating,
+  author    = {Sheu, Yi-han},
+  journal   = {Frontiers in Psychiatry},
+  title     = {Illuminating the black box: interpreting deep neural network models for psychiatric research},
+  year      = {2020},
+  pages     = {551299},
+  volume    = {11},
+  publisher = {Frontiers Media SA},
+}
+
+@Article{alvarez2018robustness,
+  author  = {Alvarez-Melis, David and Jaakkola, Tommi S},
+  journal = {arXiv preprint arXiv:1806.08049},
+  title   = {On the robustness of interpretability methods},
+  year    = {2018},
+}
+
+@Article{smilkov2017smoothgrad,
+  author  = {Smilkov, Daniel and Thorat, Nikhil and Kim, Been and Vi{\'e}gas, Fernanda and Wattenberg, Martin},
+  journal = {arXiv preprint arXiv:1706.03825},
+  title   = {Smoothgrad: removing noise by adding noise},
+  year    = {2017},
+}
+
+@Article{hooker2018evaluating,
+  author = {Hooker, Sara and Erhan, Dumitru and Kindermans, Pieter-Jan and Kim, Been},
+  title  = {Evaluating feature importance estimates},
+  year   = {2018},
+}
+
+@InProceedings{zhou2016learning,
+  author    = {Zhou, Bolei and Khosla, Aditya and Lapedriza, Agata and Oliva, Aude and Torralba, Antonio},
+  booktitle = {Proceedings of the IEEE conference on computer vision and pattern recognition},
+  title     = {Learning deep features for discriminative localization},
+  year      = {2016},
+  pages     = {2921--2929},
+}
+
+@Article{shapley_values,
+  author    = {{\v{S}}trumbelj, Erik and Kononenko, Igor},
+  journal   = {Knowledge and information systems},
+  title     = {Explaining prediction models and individual predictions with feature contributions},
+  year      = {2014},
+  number    = {3},
+  pages     = {647--665},
+  volume    = {41},
+  publisher = {Springer},
+}
+
+@Misc{caltech_101,
+  author       = {Li and Andreeto and Ranzato and Perona},
+  month        = {Apr},
+  title        = {Caltech 101},
+  year         = {2022},
+  abstractnote = {Pictures of objects belonging to 101 categories. About 40 to 800 images per category. Most categories have about 50 images. Collected in September 2003 by Fei-Fei Li, Marco Andreetto, and Marc'Aurelio Ranzato. The size of each image is roughly 300 x 200 pixels. We have carefully clicked outlines of each object in these pictures, these are included under the 'Annotations.tar'. There is also a MATLAB script to view the annotations, 'show_annotations.m'.},
+  doi          = {10.22002/D1.20086},
+  publisher    = {CaltechDATA},
+}
+
+@Misc{caltech_256,
+  author       = {Griffin and Holub and Perona},
+  month        = {Apr},
+  title        = {Caltech 256},
+  year         = {2022},
+  abstractnote = {We introduce a challenging set of 256 object categories containing a total of 30607 images. The original Caltech-101 was collected by choosing a set of object categories, downloading examples from Google Images and then manually screening out all images that did not fit the category. Caltech-256 is collected in a similar manner with several improvements: a) the number of categories is more than doubled, b) the minimum number of images in any category is increased from 31 to 80, c) artifacts due to image rotation are avoided and d) a new and larger clutter category is introduced for testing background rejection. We suggest several testing paradigms to measure classification performance, then benchmark the dataset using two simple metrics as well as a state-of-the-art spatial pyramid matching algorithm. Finally we use the clutter category to train an interest detector which rejects uninformative background regions.},
+  doi          = {10.22002/D1.20087},
+  publisher    = {CaltechDATA},
+}
+
+@Misc{pascal-voc-2012,
+  author       = {Everingham, M. and Van~Gool, L. and Williams, C. K. I. and Winn, J. and Zisserman, A.},
+  howpublished = {http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html},
+  title        = {The {PASCAL} {V}isual {O}bject {C}lasses {C}hallenge 2012 {(VOC2012)} {R}esults},
+}
+
+@Article{ILSVRC15,
+  author  = {Olga Russakovsky and Jia Deng and Hao Su and Jonathan Krause and Sanjeev Satheesh and Sean Ma and Zhiheng Huang and Andrej Karpathy and Aditya Khosla and Michael Bernstein and Alexander C. Berg and Li Fei-Fei},
+  journal = {International Journal of Computer Vision (IJCV)},
+  title   = {{ImageNet Large Scale Visual Recognition Challenge}},
+  year    = {2015},
+  number  = {3},
+  pages   = {211-252},
+  volume  = {115},
+  doi     = {10.1007/s11263-015-0816-y},
+}
+
+@Article{lecun1998gradient,
+  author    = {LeCun, Yann and Bottou, L{\'e}on and Bengio, Yoshua and Haffner, Patrick},
+  journal   = {Proceedings of the IEEE},
+  title     = {Gradient-based learning applied to document recognition},
+  year      = {1998},
+  number    = {11},
+  pages     = {2278--2324},
+  volume    = {86},
+  publisher = {Ieee},
+}
+
+@Article{adebayo2018sanity,
+	title={Sanity checks for saliency maps},
+	author={Adebayo, Julius and Gilmer, Justin and Muelly, Michael and Goodfellow, Ian and Hardt, Moritz and Kim, Been},
+	journal={Advances in neural information processing systems},
+	volume={31},
+	year={2018}
+}
+
+@Article{draelos2020hirescam,
+	title={HiResCAM: Faithful location representation in visual attention for explainable 3d medical image classification},
+	author={Draelos, Rachel Lea and Carin, Lawrence},
+	journal={arXiv preprint arXiv:2011.08891},
+	year={2020}
+}
+
+@Article{srinivas2019full,
+	title={Full-gradient representation for neural network visualization},
+	author={Srinivas, Suraj and Fleuret, Fran{\c{c}}ois},
+	journal={Advances in neural information processing systems},
+	volume={32},
+	year={2019}
+}
+
+@InProceedings{sundararajan2017axiomatic,
+	title={Axiomatic attribution for deep networks},
+	author={Sundararajan, Mukund and Taly, Ankur and Yan, Qiqi},
+	booktitle={International conference on machine learning},
+	pages={3319--3328},
+	year={2017},
+	organization={PMLR}
+}
+
+@Article{kokhlikyan2020captum,
+	title={Captum: A unified and generic model interpretability library for pytorch},
+	author={Kokhlikyan, Narine and Miglani, Vivek and Martin, Miguel and Wang, Edward and Alsallakh, Bilal and Reynolds, Jonathan and Melnikov, Alexander and Kliushkina, Natalia and Araya, Carlos and Yan, Siqi and others},
+	journal={arXiv preprint arXiv:2009.07896},
+	year={2020}
+}
+
+@InProceedings{bau2017network,
+	title={Network dissection: Quantifying interpretability of deep visual representations},
+	author={Bau, David and Zhou, Bolei and Khosla, Aditya and Oliva, Aude and Torralba, Antonio},
+	booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+	pages={6541--6549},
+	year={2017}
+}
+
+@InProceedings{zhifei2017cvpr,
+	title={Age Progression/Regression by Conditional Adversarial Autoencoder},
+	author={Zhang, Zhifei, Song, Yang, and Qi, Hairong},
+	booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+	year={2017},
+	organization={IEEE}
+}
+
+@Article{boykov2006graph,
+	title={Graph cuts and efficient ND image segmentation},
+	author={Boykov, Yuri and Funka-Lea, Gareth},
+	journal={International journal of computer vision},
+	volume={70},
+	number={2},
+	pages={109--131},
+	year={2006},
+	publisher={Springer}
+}
+
+@article{zhang2018top,
+	title={Top-down neural attention by excitation backprop},
+	author={Zhang, Jianming and Bargal, Sarah Adel and Lin, Zhe and Brandt, Jonathan and Shen, Xiaohui and Sclaroff, Stan},
+	journal={International Journal of Computer Vision},
+	volume={126},
+	number={10},
+	pages={1084--1102},
+	year={2018},
+	publisher={Springer}
+}
+
+@article{zhou2014object,
+	title={Object detectors emerge in deep scene cnns},
+	author={Zhou, Bolei and Khosla, Aditya and Lapedriza, Agata and Oliva, Aude and Torralba, Antonio},
+	journal={arXiv preprint arXiv:1412.6856},
+	year={2014}
+}
+
+@article{hoffman2018metrics,
+	title={Metrics for explainable AI: Challenges and prospects},
+	author={Hoffman, Robert R and Mueller, Shane T and Klein, Gary and Litman, Jordan},
+	journal={arXiv preprint arXiv:1812.04608},
+	year={2018}
+}
+
+@inproceedings{rosenfeld2021better,
+	title={Better metrics for evaluating explainable artificial intelligence},
+	author={Rosenfeld, Avi},
+	booktitle={Proceedings of the 20th international conference on autonomous agents and multiagent systems},
+	pages={45--50},
+	year={2021}
+}
+
+@article{lin2020you,
+	title={What do you see? Evaluation of explainable artificial intelligence (XAI) interpretability through neural backdoors},
+	author={Lin, Yi-Shan and Lee, Wen-Chuan and Celik, Z Be
